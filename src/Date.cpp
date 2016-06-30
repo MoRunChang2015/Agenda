@@ -13,6 +13,10 @@ Date::Date(int t_year, int t_month, int t_day, int t_hour, int t_minute)
       m_minute(t_minute) {}
 
 /**
+* @brief  constructor with a string
+*/
+Date(std::string dateString) { *this = stringToDate(dateString); }
+/**
 * @brief return the year of a Date
 * @return   a integer indicate the year of a date
 */
