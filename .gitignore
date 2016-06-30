@@ -1,0 +1,6 @@
+bin
+*~
+*.gch
+*.o
+main
+Agenda
