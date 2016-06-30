@@ -1,7 +1,7 @@
 #ifndef AGENDAUI_H
 #define AGENDAUI_H
 
-#include "AgendaService.h"
+#include "AgendaService.hpp"
 #include <iostream>
 #include <string>
 

@@ -1,7 +1,7 @@
 #ifndef MEETING_H
 #define MEETING_H
 
-#include "Date.h"
+#include "Date.hpp"
 
 class Meeting {
 public:
@@ -15,6 +15,7 @@ public:
   */
   Meeting(std::string t_sponsor, std::string t_participator, Date t_startTime,
           Date t_endTime, std::string t_title);
+<<<<<<< HEAD
 
   /**
   * @brief copy constructor of left value
@@ -25,6 +26,10 @@ public:
   *   @brief get the meeting's sponsor
   *   @return a string indicate sponsor
   */
+=======
+  Meeting(const Meeting &&t_meeting);
+  Meeting(const Meeting & t_meeting);
+>>>>>>> 73e93a13f95ed9ab3e228759b6ebbdc68af5ace7
   std::string getSponsor(void) const;
 
   /**
@@ -80,7 +85,6 @@ public:
   * @param  the new title of a meeting
   */
   void setTitle(const std::string t_title);
-
 private:
   std::string m_sponsor;
   std::string m_participator;
