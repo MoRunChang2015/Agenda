@@ -1,7 +1,7 @@
-#include "../include/AgendaService.hpp"
-#include "../include/User.hpp"
-#include "../include/Meeting.hpp"
-#include "../include/Date.hpp"
+#include "AgendaService.hpp"
+#include "User.hpp"
+#include "Meeting.hpp"
+#include "Date.hpp"
 #include <iostream>
 #include <list>
 #include <string>
