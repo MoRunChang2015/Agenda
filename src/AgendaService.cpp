@@ -6,25 +6,42 @@
 #include <list>
 #include <string>
 
-
+/**
+ * constructor
+ */
 AgendaService :: AgendaService() {
     startAgenda();
 }
 
-
+/**
+ * destructor
+ */ 
 AgendaService :: ~AgendaService() {
     quitAgenda();
 }
 
-
+/**
+ * start Agenda service and connect to storage
+ */ 
 void AgendaService :: startAgenda(void) {
     m_storage = Storage :: getInstance();
 }
 
+
+/**
+ * quit Agenda service
+ */
 void AgendaService :: quitAgenda(void) {
 
 }
 
+
+/**
+ * check if the username match password
+ * @param userName the username want to login
+ * @param password the password user enter
+ * @return if the username match password
+ */
 bool  AgendaService :: userLogIn(const std::string userName, const std::string password) {
     std :: list<User> l;
     User temp(userName , password , "" , "");
@@ -42,6 +59,14 @@ bool  AgendaService :: userLogIn(const std::string userName, const std::string p
         return false;
 }
 
+/**
+ * regist a user
+ * @param userName new user's username
+ * @param password new user's password
+ * @param email new user's email
+ * @param phone new user's phone 
+ * @return if resgist a new user success
+ */
 bool  AgendaService :: userRegister(const std::string userName, const std::string password,
                     const std::string email, const std::string phone) {
     std :: list<User> l;
@@ -57,6 +82,13 @@ bool  AgendaService :: userRegister(const std::string userName, const std::strin
     m_storage -> createUser(temp);
     return true;
 }
+
+/**
+ * delete a user
+ * @param userName user's username
+ * @param password user's password
+ * @return if delete this user success
+ */
 bool AgendaService :: deleteUser(const std::string userName, const std::string password) {
     std :: list<User> l;
     l = m_storage -> queryUser([ &userName ](const User& a) {
@@ -84,7 +116,11 @@ bool AgendaService :: deleteUser(const std::string userName, const std::string p
     });
     return true;
 }
-    // a user can only delete itself
+
+/**
+ * list all users from storage
+ * @return a user list result
+ */
 std::list<User> AgendaService :: listAllUsers(void) const {
     std :: list<User> l;
     l = m_storage -> queryUser([](const User& a) {
@@ -93,6 +129,16 @@ std::list<User> AgendaService :: listAllUsers(void) const {
     return l;
 }
 
+
+/**
+ * create a meeting
+ * @param userName the sponsor's userName
+ * @param title the meeting's title
+ * @param participator the meeting's participator
+ * @param startData the meeting's start date
+ * @param endData the meeting's end date
+ * @return if this meeting create success
+ */
 bool AgendaService :: createMeeting(const std::string userName, const std::string title,
                    const std::string participator,
                    const std::string startDate, const std::string endDate) {
@@ -175,6 +221,13 @@ bool AgendaService :: createMeeting(const std::string userName, const std::strin
     return true;
 }
 
+
+/**
+ * search a meeting by username and title
+ * @param uesrName the sponsor's userName
+ * @param title the meeting's title
+ * @return a meeting list result
+ */
 std::list<Meeting> AgendaService :: meetingQuery(const std::string userName,
                                                  const std::string title) const {
     std :: list<Meeting> l;
@@ -192,6 +245,13 @@ std::list<Meeting> AgendaService :: meetingQuery(const std::string userName,
     return l;    
 }
 
+/**
+ * search a meeting by username, time interval
+ * @param uesrName the sponsor's userName
+ * @param startDate time interval's start date
+ * @param endDate time interval's end date
+ * @return a meeting list result
+ */
 std::list<Meeting> AgendaService :: meetingQuery(const std::string userName, 
                     const std::string startDate , const std::string endDate) const {
     std :: list<Meeting> l;
@@ -220,6 +280,13 @@ std::list<Meeting> AgendaService :: meetingQuery(const std::string userName,
     return l;
 }
 
+
+/**
+ * list all meetings the user take part in
+ * @param userName user's username
+ * @return a meeting list result
+ */
+
 std::list<Meeting> AgendaService :: listAllMeetings(const std::string userName) const {
     std :: list<Meeting> l;
     l = m_storage -> queryMeeting([&userName](const Meeting& a) {
@@ -233,6 +300,12 @@ std::list<Meeting> AgendaService :: listAllMeetings(const std::string userName) 
     return l;
 }
 
+
+/**
+ * list all meetings the user sponsor
+ * @param userName user's username
+ * @return a meeting list result
+ */
 std::list<Meeting> AgendaService :: listAllSponsorMeetings(const std::string userName) const {
     std :: list<Meeting> l;
     l = m_storage -> queryMeeting([&userName](const Meeting& a) {
@@ -245,6 +318,12 @@ std::list<Meeting> AgendaService :: listAllSponsorMeetings(const std::string use
     return l;
 }
 
+
+/**
+ * list all meetings the user take part in and sponsor by other
+ * @param userName user's username
+ * @return a meeting list result
+ */
 std::list<Meeting> AgendaService :: listAllParticipateMeetings(const std::string userName) const {
     std :: list<Meeting> l;
     l = m_storage -> queryMeeting([&userName](const Meeting& a) {
@@ -257,6 +336,13 @@ std::list<Meeting> AgendaService :: listAllParticipateMeetings(const std::string
     return l;
 }
 
+
+/**
+ * delete a meeting by title and its sponsor
+ * @param userName sponsor's username
+ * @param title meeting's title
+ * @return if delete this meeting success
+ */
 bool AgendaService :: deleteMeeting(const std::string userName, const std::string title) {
     int ans = 0;
     ans = m_storage -> deleteMeeting([&userName , &title](const Meeting& a) {
@@ -272,6 +358,12 @@ bool AgendaService :: deleteMeeting(const std::string userName, const std::strin
         return false;
 }
 
+
+/**
+ * delete all meetings by sponsor
+ * @param userName sponsor's username
+ * @return if delete all meetings success
+ */
 bool AgendaService :: deleteAllMeetings(const std::string userName) {
     int ans = 0;
     ans = m_storage -> deleteMeeting([&userName](const Meeting& a) {
