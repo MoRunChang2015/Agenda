@@ -1,3 +1,4 @@
+#include "User.hpp"
 /**
 * constructor with arguments
 */
@@ -55,8 +56,4 @@ void User::setEmail(std::string t_email) { m_email = t_email; }
 */
 std::string User::getPhone() const { return m_phone; }
 
-/**
-* @brief set the phone of the user
-* @param   a string indicate the new phone of the user
-*/
 void User::setPhone(std::string t_phone) { m_phone = t_phone; }

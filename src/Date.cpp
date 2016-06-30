@@ -1,4 +1,6 @@
 #include "Date.hpp"
+#include "Meeting.hpp"
+#include "User.hpp"
 #include <sstream>
 /**
 * @brief default constructor
@@ -80,7 +82,7 @@ void Date::setMinute(const int t_minute) { m_minute = t_minute; }
 *   @brief check whether the date is valid or not
 *   @return the bool indicate valid or not
 */
-static bool Date::isValid(const Date t_date) {
+bool Date::isValid(const Date t_date) {
   int current_year = t_date.getYear();
   int current_month = t_date.getMonth();
   int current_day = t_date.getDay();
