@@ -123,6 +123,7 @@ bool Storage::writeToFile(void) {
         << std::endl;
     }
     meetings_ifs.close();
+    return true;
 }
 
 public:

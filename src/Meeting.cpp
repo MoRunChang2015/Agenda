@@ -1,3 +1,5 @@
+#include "Meeting.hpp"
+
 /**
 *   @brief constructor with argument
 */

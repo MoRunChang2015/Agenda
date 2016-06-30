@@ -15,7 +15,6 @@ public:
   */
   User(std::string t_userName, std::string t_userPassword,
        std::string t_userEmail, std::string t_userPhone);
-<<<<<<< HEAD
 
   /**
   * @brief copy constructor
@@ -26,10 +25,6 @@ public:
   * @brief get the name of the user
   * @return   return a string indicate the name of the user
   */
-=======
-  User(const User &&t_user);
-  User(const User &t_user);
->>>>>>> 73e93a13f95ed9ab3e228759b6ebbdc68af5ace7
   std::string getName() const;
 
   /**
