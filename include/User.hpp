@@ -9,6 +9,7 @@ public:
   User(std::string t_userName, std::string t_userPassword,
        std::string t_userEmail, std::string t_userPhone);
   User(const User &&t_user);
+  User(const User &t_user);
   std::string getName() const;
 
   void setName(std::string t_name);
