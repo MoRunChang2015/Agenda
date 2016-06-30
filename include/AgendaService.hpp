@@ -1,7 +1,7 @@
 #ifndef AGENDASERVICE_H
 #define AGENDASERVICE_H
 
-#include "Storage.h"
+#include "Storage.hpp"
 #include <list>
 #include <string>
 
@@ -13,7 +13,7 @@ public:
   bool userRegister(const std::string userName, const std::string password,
                     const std::string email, const std::string phone);
   bool deleteUser(const std::string userName, const std::string password);
-  // a user can only delete itself
+  // a user can only definelete itself
   std::list<User> listAllUsers(void) const;
 
   bool createMeeting(const std::string userName, const std::string title,

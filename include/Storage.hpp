@@ -1,8 +1,8 @@
 ﻿#ifndef AGENDA_STORAGE_H
 #define AGENDA_STORAGE_H
 
-#include "Meeting.h"
-#include "User.h"
+#include "Meeting.hpp"
+#include "User.hpp"
 #include <functional>
 #include <list>
 #include <memory>
