@@ -18,42 +18,104 @@ private:
   /**
   *   disallow the copy constructor and assign operator
   */
-  Storage(const Storage &) = delete;
-  void operator=(const Storage &) = delete;
+  Storage(const Storage & t_another) = delete;
+  void operator=(const Storage & t_another) = delete;
 
-  // File IO
-  bool readFromFile(const char *fpath);
-  bool writeToFile(const char *fpath);
+  /**
+  *   read file content into memory
+  *   @return if success, true will be returned
+  */
+  bool readFromFile(void);
+
+  /**
+  *   write file content from memory
+  *   @return if success, true will be returned
+  */
+  bool writeToFile(void);
 
 public:
-  // singleton
-  static std::unique_ptr<Storage> getInstance(void);
+  /**
+  * get Instance of storage
+  * @return the pointer of the instance
+  */
+  static std::shared_ptr<Storage> getInstance(void);
+
+  /**
+  *   destructor
+  */
   ~Storage();
+
   // CRUD for User & Meeting
   // using C++11 Function Template and Lambda Expressions
-  void createUser(const User &);
-  std::list<User> queryUser(std::function<bool(const User &)> filter);
-  // return found users
+
+  /**
+  * create a user
+  * @param a user object
+  */
+  void createUser(const User & t_user);
+
+  /**
+  * query users
+  * @param a lambda function as the filter
+  * @return a list of fitted users
+  */
+  std::list<User> queryUser(std::function<bool(const User &)> filter) const;
+
+  /**
+  * update users
+  * @param a lambda function as the filter
+  * @param a lambda function as the method to update the user
+  * @return the number of updated users
+  */
   int updateUser(std::function<bool(const User &)> filter,
                  std::function<void(User &)> switcher);
-  // return the number of updated users
+
+  /**
+  * delete users
+  * @param a lambda function as the filter
+  * @return the number of deleted users
+  */
   int deleteUser(std::function<bool(const User &)> filter);
-  // return the number of deleted users
-  void createMeeting(const Meeting &);
-  std::list<Meeting> queryMeeting(std::function<bool(const Meeting &)> filter);
-  // return found meetings
+
+  /**
+  * create a meeting
+  * @param a meeting object
+  */
+  void createMeeting(const Meeting & t_meeting);
+
+  /**
+  * query meetings
+  * @param a lambda function as the filter
+  * @return a list of fitted meetings
+  */
+  std::list<Meeting> queryMeeting(std::function<bool(const Meeting &)> filter) const;
+
+  /**
+  * update meetings
+  * @param a lambda function as the filter
+  * @param a lambda function as the method to update the meeting
+  * @return the number of updated meetings
+  */
   int updateMeeting(std::function<bool(const Meeting &)> filter,
                     std::function<void(Meeting &)> switcher);
-  // return the number of updated meetings
+
+  /**
+  * update meetings
+  * @param a lambda function as the filter
+  * @return the number of deleted meetings
+  */
   int deleteMeeting(std::function<bool(const Meeting &)> filter);
-  // return the number of deleted meetings
-  // File IO
+
+  /**
+  * sync with the file
+  */
   bool sync(void);
 
 private:
-  static std::unique_ptr<Storage> m_instance;
+  static std::shared_ptr<Storage> m_instance;
   std::list<User> m_userList;
   std::list<Meeting> m_meetingList;
+  bool m_dirty;
 };
 
 #endif
