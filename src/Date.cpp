@@ -18,11 +18,7 @@ Date::Date(int t_year, int t_month, int t_day, int t_hour, int t_minute)
 /**
 * @brief  constructor with a string
 */
-<<<<<<< HEAD
 Date::Date(std::string dateString) { (*this) = stringToDate(dateString); }
-=======
-Date::Date(std::string dateString) { *this = stringToDate(dateString); }
->>>>>>> ac346fc2a90381e7c7170e1abcdf0aaef24a760f
 /**
 * @brief return the year of a Date
 * @return   a integer indicate the year of a date
@@ -142,41 +138,9 @@ int string2Int(std::string s) {
 * @return a date
 */
 Date Date::stringToDate(const std::string t_dateString) {
-<<<<<<< HEAD
-  Date resultDate;
-  //检查字符串的格式是否正确．
-  if (t_dateString.length() != 16) {
-    return resultDate;
-  }
-  for (int count = 0; count < t_dateString.length(); count++) {
-    switch (count) {
-    case 4:
-      if (t_dateString[4] != '-') {
-        return resultDate;
-      }
-      break;
-    case 7:
-      if (t_dateString[7] != '-') {
-        return resultDate;
-      }
-      break;
-    case 10:
-      if (t_dateString[10] != '/') {
-        return resultDate;
-      }
-      break;
-    case 13:
-      if (t_dateString[13] != ':') {
-        return resultDate;
-      }
-      break;
-    default:
-      if (t_dateString[count] < '0' || t_dateString[count] > '9') {
-=======
     Date resultDate;
     //检查字符串的格式是否正确．
     if (t_dateString.length() != 16) {
->>>>>>> ac346fc2a90381e7c7170e1abcdf0aaef24a760f
         return resultDate;
     }
     for (int count = 0; count < t_dateString.length(); count++) {
@@ -236,47 +200,24 @@ std::string int2String(int a) {
 * 0000-00-00/00:00
 */
 std::string Date::dateToString(Date t_date) {
-<<<<<<< HEAD
-  std::string dateString = "";
-  //若date的格式错误，则返回初始时间串0000-00-00/00:00
-  if (isValid(t_date)) {
-    dateString = "0000-00-00/00:00";
-=======
     std::string dateString = "";
     //若date的格式错误，则返回初始时间串0000-00-00/00:00
-    if (!isValid(t_date)) {
+    if (isValid(t_date)) {
         dateString = "0000-00-00/00:00";
         return dateString;
     }
-    //若格式没有错误
-    dateString =
-        int2String(t_date.getYear()) + "-" + int2String(t_date.getMonth()) +
-        "-" + int2String(t_date.getDay()) + "/" + int2String(t_date.getHour()) +
-        ":" + int2String(t_date.getMinute());
->>>>>>> ac346fc2a90381e7c7170e1abcdf0aaef24a760f
-    return dateString;
 }
 
 /**
 *  @brief overload the assign operator
 */
 Date &Date::operator=(const Date &t_date) {
-<<<<<<< HEAD
-  this->setYear(t_date.getYear());
-  this->setMonth(t_date.getMonth());
-  this->setDay(t_date.getDay());
-  this->setHour(t_date.getHour());
-  this->setMinute(t_date.getMinute());
-  return (*this);
-=======
-    Date resultDate;
-    resultDate.setYear(t_date.getYear());
-    resultDate.setMonth(t_date.getMonth());
-    resultDate.setDay(t_date.getDay());
-    resultDate.setHour(t_date.getHour());
-    resultDate.setMinute(t_date.getMinute());
-    return resultDate;
->>>>>>> ac346fc2a90381e7c7170e1abcdf0aaef24a760f
+    this->setYear(t_date.getYear());
+    this->setMonth(t_date.getMonth());
+    this->setDay(t_date.getDay());
+    this->setHour(t_date.getHour());
+    this->setMinute(t_date.getMinute());
+    return (*this);
 }
 
 /**
@@ -313,14 +254,16 @@ bool Date::operator<(const Date &t_date) const {
 }
 
 /**
-* @brief check whether the CurrentDate is  greater or equal than the t_date
+* @brief check whether the CurrentDate is  greater or equal than the
+* t_date
 */
 bool Date::operator>=(const Date &t_date) const {
     return ((*this) == t_date || (*this) > t_date);
 }
 
 /**
-* @brief check whether the CurrentDate is  less than or equal to the t_date
+* @brief check whether the CurrentDate is  less than or equal to the
+* t_date
 */
 bool Date::operator<=(const Date &t_date) const {
   return ((*this) < t_date || (*this) == t_date);
