@@ -6,34 +6,106 @@
 #include <string>
 
 class AgendaUI {
-public:
-  AgendaUI();
-  void OperationLoop(void);
+   public:
+    AgendaUI();
+    void OperationLoop(void);
 
-private:
-  // task functions
-  void startAgenda(void);
-  std::string getOperation();
-  bool executeOperation(std::string t_operation);
-  void userLogIn(void);
-  void userRegister(void);
-  void quitAgenda(void);
-  void userLogOut(void);
-  void deleteUser(void);
-  void listAllUsers(void);
-  void createMeeting(void);
-  void listAllMeetings(void);
-  void listAllSponsorMeetings(void);
-  void listAllParticipateMeetings(void);
-  void queryMeetingByTitle(void);
-  void queryMeetingByTimeInterval(void);
-  void deleteMeetingByTitle(void);
-  void deleteAllMeetings(void);
-  void printMeetings(std::list<Meeting> t_meetings);
-  // dates
-  std::string m_userName;
-  std::string m_userPassword;
-  AgendaService m_agendaService;
+   private:
+    /**
+     * constructor
+     */
+    void startAgenda(void);
+
+    /**
+     * catch user's operation
+     * @return the operation
+     */
+    std::string getOperation();
+
+    /**
+     * execute the operation
+     * @return if the operationloop continue
+     */
+    bool executeOperation(std::string t_operation);
+
+    /**
+     * user Login
+     */
+    void userLogIn(void);
+
+    /**
+     * user regist
+     */
+    void userRegister(void);
+
+    /**
+     * quit the Agenda
+     */
+    void quitAgenda(void);
+
+    /**
+     * user logout
+     */
+    void userLogOut(void);
+
+    /**
+     * delete a user from storage
+     */
+    void deleteUser(void);
+
+    /**
+     * list all users from storage
+     */
+    void listAllUsers(void);
+
+    /**
+     * user create a meeting with someone else
+     */
+    void createMeeting(void);
+
+    /**
+     * list all meetings from storage
+     */
+    void listAllMeetings(void);
+
+    /**
+     * list all meetings that this user sponsored
+     */
+    void listAllSponsorMeetings(void);
+
+    /**
+     * list all meetings that this user take part in
+     */
+    void listAllParticipateMeetings(void);
+
+    /**
+     * search meetings by title from storage
+     */
+    void queryMeetingByTitle(void);
+
+    /**
+     * search meetings by timeinterval from storage
+     */
+    void queryMeetingByTimeInterval(void);
+
+    /**
+     * delete meetings by title from storage
+     */
+    void deleteMeetingByTitle(void);
+
+    /**
+     * delete all meetings that this user sponsored
+     */
+    void deleteAllMeetings(void);
+
+    /**
+     * show the meetings in the screen
+     */
+    void printMeetings(std::list<Meeting> t_meetings);
+    // dates
+    std::string m_userName;
+    std::string m_userPassword;
+    AgendaService m_agendaService;
 };
 
 #endif
