@@ -202,10 +202,15 @@ std::string int2String(int a) {
 std::string Date::dateToString(Date t_date) {
     std::string dateString = "";
     //若date的格式错误，则返回初始时间串0000-00-00/00:00
-    if (isValid(t_date)) {
+    if (!isValid(t_date)) {
         dateString = "0000-00-00/00:00";
         return dateString;
     }
+    dateString =
+        int2String(t_date.getYear()) + "-" + int2String(t_date.getMonth()) +
+        "-" + int2String(t_date.getDay()) + "/" + int2String(t_date.getHour()) +
+        ":" + int2String(t_date.getMinute());
+    return dateString;
 }
 
 /**

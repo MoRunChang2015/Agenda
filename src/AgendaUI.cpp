@@ -276,7 +276,6 @@ void AgendaUI::listAllSponsorMeetings(void) {
     cout << endl;
     cout << "[list all sponsor meetings]" << endl;
     list<Meeting> l(m_agendaService.listAllSponsorMeetings(m_userName));
-    // auto l = m_agendaService.listAllSponsorMeetings(m_userName);
     cout << endl;
     if (l.empty()) {
         cout << "None" << endl;
@@ -349,7 +348,6 @@ void AgendaUI::queryMeetingByTimeInterval(void) {
     cout << "[query meetings] ";
     string sTime, eTime;
     cin >> sTime >> eTime;
-    cout << endl;
     cout << "[query meetings]" << endl;
     list<Meeting> l(m_agendaService.meetingQuery(m_userName, sTime, eTime));
     // l = m_agendaService.meetingQuery(m_userName , sTime , eTime);
@@ -371,7 +369,6 @@ void AgendaUI::deleteMeetingByTitle(void) {
     cout << "[delete meeting] ";
     string title;
     cin >> title;
-    cout << endl;
     if (m_agendaService.deleteMeeting(m_userName, title)) {
         cout << "[delete meeting] succeed!" << endl;
     } else {
