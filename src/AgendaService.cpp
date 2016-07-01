@@ -9,32 +9,22 @@
 /**
  * constructor
  */
-AgendaService :: AgendaService() {
-    startAgenda();
-}
+AgendaService::AgendaService() { startAgenda(); }
 
 /**
  * destructor
- */ 
-AgendaService :: ~AgendaService() {
-    quitAgenda();
-}
+ */
+AgendaService::~AgendaService() { quitAgenda(); }
 
 /**
  * start Agenda service and connect to storage
- */ 
-void AgendaService :: startAgenda(void) {
-    m_storage = Storage :: getInstance();
-}
-
+ */
+void AgendaService::startAgenda(void) { m_storage = Storage::getInstance(); }
 
 /**
  * quit Agenda service
  */
-void AgendaService :: quitAgenda(void) {
-
-}
-
+void AgendaService::quitAgenda(void) {}
 
 /**
  * check if the username match password
@@ -42,18 +32,18 @@ void AgendaService :: quitAgenda(void) {
  * @param password the password user enter
  * @return if the username match password
  */
-bool  AgendaService :: userLogIn(const std::string userName, const std::string password) {
-    std :: list<User> l;
-    User temp(userName , password , "" , "");
-    l = m_storage -> queryUser([&temp](const User& a) {
+bool AgendaService::userLogIn(const std::string userName,
+                              const std::string password) {
+    std::list<User> l;
+    User temp(userName, password, "", "");
+    l = m_storage->queryUser([&temp](const User& a) {
         if (a.getName() == temp.getName())
             return true;
         else
             return false;
     });
-    if (l.empty())
-        return false;
-    if (password == l.begin() -> getPassword())
+    if (l.empty()) return false;
+    if (password == l.begin()->getPassword())
         return true;
     else
         return false;
@@ -64,22 +54,23 @@ bool  AgendaService :: userLogIn(const std::string userName, const std::string p
  * @param userName new user's username
  * @param password new user's password
  * @param email new user's email
- * @param phone new user's phone 
+ * @param phone new user's phone
  * @return if resgist a new user success
  */
-bool  AgendaService :: userRegister(const std::string userName, const std::string password,
-                    const std::string email, const std::string phone) {
-    std :: list<User> l;
-    User temp(userName , password , email , phone);
-    l = m_storage -> queryUser([&temp](const User& a) {
+bool AgendaService::userRegister(const std::string userName,
+                                 const std::string password,
+                                 const std::string email,
+                                 const std::string phone) {
+    std::list<User> l;
+    User temp(userName, password, email, phone);
+    l = m_storage->queryUser([&temp](const User& a) {
         if (a.getName() == temp.getName())
             return true;
         else
             return false;
     });
-    if (!l.empty())
-        return false;
-    m_storage -> createUser(temp);
+    if (!l.empty()) return false;
+    m_storage->createUser(temp);
     return true;
 }
 
@@ -89,27 +80,25 @@ bool  AgendaService :: userRegister(const std::string userName, const std::strin
  * @param password user's password
  * @return if delete this user success
  */
-bool AgendaService :: deleteUser(const std::string userName, const std::string password) {
-    std :: list<User> l;
-    l = m_storage -> queryUser([ &userName ](const User& a) {
+bool AgendaService::deleteUser(const std::string userName,
+                               const std::string password) {
+    std::list<User> l;
+    l = m_storage->queryUser([&userName](const User& a) {
         if (a.getName() == userName)
             return true;
         else
             return false;
     });
-    if (l.empty())
-        return false;
-    if (password != l.begin() -> getPassword())
-        return false;
-    m_storage -> deleteUser([&userName](const User& a) {
+    if (l.empty()) return false;
+    if (password != l.begin()->getPassword()) return false;
+    m_storage->deleteUser([&userName](const User& a) {
         if (a.getName() == userName)
             return true;
         else
             return false;
     });
-    m_storage -> deleteMeeting([&userName](const Meeting& a) {
-        if (a.getSponsor() == userName ||
-            a.getParticipator() == userName)
+    m_storage->deleteMeeting([&userName](const Meeting& a) {
+        if (a.getSponsor() == userName || a.getParticipator() == userName)
             return true;
         else
             return false;
@@ -121,14 +110,11 @@ bool AgendaService :: deleteUser(const std::string userName, const std::string p
  * list all users from storage
  * @return a user list result
  */
-std::list<User> AgendaService :: listAllUsers(void) const {
-    std :: list<User> l;
-    l = m_storage -> queryUser([](const User& a) {
-        return true;
-    });
+std::list<User> AgendaService::listAllUsers(void) const {
+    std::list<User> l;
+    l = m_storage->queryUser([](const User& a) { return true; });
     return l;
 }
-
 
 /**
  * create a meeting
@@ -139,45 +125,55 @@ std::list<User> AgendaService :: listAllUsers(void) const {
  * @param endData the meeting's end date
  * @return if this meeting create success
  */
-bool AgendaService :: createMeeting(const std::string userName, const std::string title,
-                   const std::string participator,
-                   const std::string startDate, const std::string endDate) {
-    if (userName == participator)
-       return false;
+bool AgendaService::createMeeting(const std::string userName,
+                                  const std::string title,
+                                  const std::string participator,
+                                  const std::string startDate,
+                                  const std::string endDate) {
+    if (userName == participator) return false;
     Date sTime;
     Date eTime;
-    sTime = Date :: stringToDate(startDate);
-    eTime = Date :: stringToDate(endDate);
-    if (! Date :: isValid(sTime))
-        return false;
-    if (! Date :: isValid(eTime))
-        return false;
-    if (sTime >= eTime)
-        return false;
-    std :: list<User> lu;
-    lu = m_storage -> queryUser([&userName] (const User& a) {
+    sTime = Date::stringToDate(startDate);
+    eTime = Date::stringToDate(endDate);
+    if (!Date::isValid(sTime)) return false;
+    if (!Date::isValid(eTime)) return false;
+    if (sTime >= eTime) return false;
+    std::list<User> lu;
+    lu = m_storage->queryUser([&userName](const User& a) {
         if (a.getName() == userName) {
             return true;
         } else {
             return false;
         }
     });
-    if (lu.empty())
-        return false;
-    lu = m_storage -> queryUser([&participator] (const User& a) {
+    if (lu.empty()) return false;
+    lu = m_storage->queryUser([&participator](const User& a) {
         if (a.getName() == participator) {
             return true;
         } else {
             return false;
         }
     });
-    if (lu.empty())
-        return false;
-    std :: list<Meeting> l;
-    l = m_storage -> queryMeeting([&participator , &sTime , &eTime]
-                                  (const Meeting& a) {
-        if (a.getSponsor() == participator ||
-             a.getParticipator() == participator) {
+    if (lu.empty()) return false;
+    std::list<Meeting> l;
+    l = m_storage->queryMeeting(
+        [&participator, &sTime, &eTime](const Meeting& a) {
+            if (a.getSponsor() == participator ||
+                a.getParticipator() == participator) {
+                if (a.getStartDate() <= sTime && a.getEndDate() > sTime)
+                    return true;
+                if (a.getStartDate() < eTime && a.getEndDate() >= eTime)
+                    return true;
+                if (a.getStartDate() >= sTime && a.getEndDate() <= eTime)
+                    return true;
+                return false;
+            } else {
+                return false;
+            }
+        });
+    if (!l.empty()) return false;
+    l = m_storage->queryMeeting([&userName, &sTime, &eTime](const Meeting& a) {
+        if (a.getSponsor() == userName || a.getParticipator() == userName) {
             if (a.getStartDate() <= sTime && a.getEndDate() > sTime)
                 return true;
             if (a.getStartDate() < eTime && a.getEndDate() >= eTime)
@@ -186,41 +182,21 @@ bool AgendaService :: createMeeting(const std::string userName, const std::strin
                 return true;
             return false;
         } else {
-           return false;
-        }
-    });
-    if (!l.empty())
-        return false;
-    l = m_storage -> queryMeeting([&userName , &sTime , &eTime]
-                                  (const Meeting& a) {
-        if (a.getSponsor() == userName ||
-             a.getParticipator() == userName) {
-            if (a.getStartDate() <= sTime && a.getEndDate() > sTime)
-                return true;
-            if (a.getStartDate() < eTime && a.getEndDate() >= eTime)
-                return true;
-            if (a.getStartDate() >= sTime && a.getEndDate() <= eTime)
-                return true;
             return false;
-        } else {
-           return false;
         }
     });
-    if (!l.empty())
-        return false;
-    l = m_storage -> queryMeeting([&title] (const Meeting& a) {
+    if (!l.empty()) return false;
+    l = m_storage->queryMeeting([&title](const Meeting& a) {
         if (a.getTitle() == title)
             return true;
         else
             return false;
     });
-    if (!l.empty())
-         return false;
-    Meeting temp(userName , participator , sTime , eTime , title);
-    m_storage -> createMeeting(temp);
+    if (!l.empty()) return false;
+    Meeting temp(userName, participator, sTime, eTime, title);
+    m_storage->createMeeting(temp);
     return true;
 }
-
 
 /**
  * search a meeting by username and title
@@ -228,21 +204,21 @@ bool AgendaService :: createMeeting(const std::string userName, const std::strin
  * @param title the meeting's title
  * @return a meeting list result
  */
-std::list<Meeting> AgendaService :: meetingQuery(const std::string userName,
-                                                 const std::string title) const {
-    std :: list<Meeting> l;
-    l = m_storage -> queryMeeting([&userName , &title](const Meeting& a) {
+std::list<Meeting> AgendaService::meetingQuery(const std::string userName,
+                                               const std::string title) const {
+    std::list<Meeting> l;
+    l = m_storage->queryMeeting([&userName, &title](const Meeting& a) {
         if (a.getSponsor() == userName || a.getParticipator() == userName) {
             if (a.getTitle() == title) {
                 return true;
             } else {
                 return false;
             }
-        }  else {
+        } else {
             return false;
         }
     });
-    return l;    
+    return l;
 }
 
 /**
@@ -252,20 +228,17 @@ std::list<Meeting> AgendaService :: meetingQuery(const std::string userName,
  * @param endDate time interval's end date
  * @return a meeting list result
  */
-std::list<Meeting> AgendaService :: meetingQuery(const std::string userName, 
-                    const std::string startDate , const std::string endDate) const {
-    std :: list<Meeting> l;
-    Date sTime , eTime;
-    sTime = Date :: stringToDate(startDate);
-    eTime = Date :: stringToDate(endDate);
-    if (!Date :: isValid(sTime))
-        return l;
-    if (!Date :: isValid(eTime))
-        return l;
-    l = m_storage -> queryMeeting([&userName , &sTime , &eTime]
-                                             (const Meeting& a) {
-        if (a.getSponsor() == userName ||
-            a.getParticipator() == userName) {
+std::list<Meeting> AgendaService::meetingQuery(
+    const std::string userName, const std::string startDate,
+    const std::string endDate) const {
+    std::list<Meeting> l;
+    Date sTime, eTime;
+    sTime = Date::stringToDate(startDate);
+    eTime = Date::stringToDate(endDate);
+    if (!Date::isValid(sTime)) return l;
+    if (!Date::isValid(eTime)) return l;
+    l = m_storage->queryMeeting([&userName, &sTime, &eTime](const Meeting& a) {
+        if (a.getSponsor() == userName || a.getParticipator() == userName) {
             if (a.getStartDate() <= sTime && a.getEndDate() >= sTime)
                 return true;
             if (a.getStartDate() <= eTime && a.getEndDate() >= eTime)
@@ -280,18 +253,17 @@ std::list<Meeting> AgendaService :: meetingQuery(const std::string userName,
     return l;
 }
 
-
 /**
  * list all meetings the user take part in
  * @param userName user's username
  * @return a meeting list result
  */
 
-std::list<Meeting> AgendaService :: listAllMeetings(const std::string userName) const {
-    std :: list<Meeting> l;
-    l = m_storage -> queryMeeting([&userName](const Meeting& a) {
-        if (a.getSponsor() == userName ||
-            a.getParticipator() == userName) {
+std::list<Meeting> AgendaService::listAllMeetings(
+    const std::string userName) const {
+    std::list<Meeting> l;
+    l = m_storage->queryMeeting([&userName](const Meeting& a) {
+        if (a.getSponsor() == userName || a.getParticipator() == userName) {
             return true;
         } else {
             return false;
@@ -300,15 +272,15 @@ std::list<Meeting> AgendaService :: listAllMeetings(const std::string userName) 
     return l;
 }
 
-
 /**
  * list all meetings the user sponsor
  * @param userName user's username
  * @return a meeting list result
  */
-std::list<Meeting> AgendaService :: listAllSponsorMeetings(const std::string userName) const {
-    std :: list<Meeting> l;
-    l = m_storage -> queryMeeting([&userName](const Meeting& a) {
+std::list<Meeting> AgendaService::listAllSponsorMeetings(
+    const std::string userName) const {
+    std::list<Meeting> l;
+    l = m_storage->queryMeeting([&userName](const Meeting& a) {
         if (a.getSponsor() == userName) {
             return true;
         } else {
@@ -318,15 +290,15 @@ std::list<Meeting> AgendaService :: listAllSponsorMeetings(const std::string use
     return l;
 }
 
-
 /**
  * list all meetings the user take part in and sponsor by other
  * @param userName user's username
  * @return a meeting list result
  */
-std::list<Meeting> AgendaService :: listAllParticipateMeetings(const std::string userName) const {
-    std :: list<Meeting> l;
-    l = m_storage -> queryMeeting([&userName](const Meeting& a) {
+std::list<Meeting> AgendaService::listAllParticipateMeetings(
+    const std::string userName) const {
+    std::list<Meeting> l;
+    l = m_storage->queryMeeting([&userName](const Meeting& a) {
         if (a.getParticipator() == userName) {
             return true;
         } else {
@@ -336,16 +308,16 @@ std::list<Meeting> AgendaService :: listAllParticipateMeetings(const std::string
     return l;
 }
 
-
 /**
  * delete a meeting by title and its sponsor
  * @param userName sponsor's username
  * @param title meeting's title
  * @return if delete this meeting success
  */
-bool AgendaService :: deleteMeeting(const std::string userName, const std::string title) {
+bool AgendaService::deleteMeeting(const std::string userName,
+                                  const std::string title) {
     int ans = 0;
-    ans = m_storage -> deleteMeeting([&userName , &title](const Meeting& a) {
+    ans = m_storage->deleteMeeting([&userName, &title](const Meeting& a) {
         if (a.getSponsor() == userName && a.getTitle() == title) {
             return true;
         } else {
@@ -358,15 +330,14 @@ bool AgendaService :: deleteMeeting(const std::string userName, const std::strin
         return false;
 }
 
-
 /**
  * delete all meetings by sponsor
  * @param userName sponsor's username
  * @return if delete all meetings success
  */
-bool AgendaService :: deleteAllMeetings(const std::string userName) {
+bool AgendaService::deleteAllMeetings(const std::string userName) {
     int ans = 0;
-    ans = m_storage -> deleteMeeting([&userName](const Meeting& a) {
+    ans = m_storage->deleteMeeting([&userName](const Meeting& a) {
         if (a.getSponsor() == userName) {
             return true;
         } else {
@@ -378,4 +349,3 @@ bool AgendaService :: deleteAllMeetings(const std::string userName) {
     else
         return false;
 }
-

@@ -5,8 +5,11 @@
 */
 Meeting::Meeting(std::string t_sponsor, std::string t_participator,
                  Date t_startDate, Date t_endDate, std::string t_title)
-    : m_sponsor(t_sponsor), m_participator(t_participator),
-      m_startDate(t_startDate), m_endDate(t_endDate), m_title(t_title) {}
+    : m_sponsor(t_sponsor),
+      m_participator(t_participator),
+      m_startDate(t_startDate),
+      m_endDate(t_endDate),
+      m_title(t_title) {}
 
 /**
 * @brief copy constructor of left value
@@ -14,7 +17,8 @@ Meeting::Meeting(std::string t_sponsor, std::string t_participator,
 Meeting::Meeting(const Meeting &t_meeting)
     : m_sponsor(t_meeting.getSponsor()),
       m_participator(t_meeting.getParticipator()),
-      m_startDate(t_meeting.getStartDate()), m_endDate(t_meeting.getEndDate()),
+      m_startDate(t_meeting.getStartDate()),
+      m_endDate(t_meeting.getEndDate()),
       m_title(t_meeting.getTitle()) {}
 
 /**
@@ -40,7 +44,7 @@ std::string Meeting::getParticipator(void) const { return m_participator; }
 *   @param the new participator string
 */
 void Meeting::setParticipator(const std::string t_participator) {
-  m_participator = t_participator;
+    m_participator = t_participator;
 }
 
 /**
@@ -54,7 +58,7 @@ Date Meeting::getStartDate(void) const { return m_startDate; }
 * @param  the new startdate of a meeting
 */
 void Meeting::setStartDate(const Date t_startTime) {
-  m_startDate = t_startTime;
+    m_startDate = t_startTime;
 }
 
 /**
