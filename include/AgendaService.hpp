@@ -130,7 +130,7 @@ class AgendaService {
     void quitAgenda(void);
 
    private:
-    std::unique_ptr<Storage> m_storage;
+    std::shared_ptr<Storage> m_storage;
 };
 
 #endif

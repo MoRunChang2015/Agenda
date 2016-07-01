@@ -6,7 +6,7 @@
 #include <vector>
 
 // instance of Storage
-std::shared_ptr<Storage> Storage::m_instance = NULL;
+std::shared_ptr<Storage> Storage::m_instance = nullptr;
 
 /**
 *   default constructor
@@ -56,7 +56,7 @@ bool Storage::readFromFile(void) {
         if (data.size() != 4) {
             continue;
         }
-        m_userList.push_back(data[0], data[1], data[2], data[3]);
+        m_userList.push_back({data[0], data[1], data[2], data[3]});
     }
     users_ifs.close();
     std::getline(users_ifs, line);
@@ -71,7 +71,7 @@ bool Storage::readFromFile(void) {
         if (data.size() != 5) {
             continue;
         }
-        m_meetingList.push_back(data[0], data[1], data[2], data[3], data[4]);
+        m_meetingList.push_back({data[0], data[1], data[2], data[3], data[4]});
     }
     return true;
 }
@@ -81,16 +81,16 @@ bool Storage::readFromFile(void) {
 *   @param t_factors the string factors
 *   @return a csv string
 */
-static std::string generate_csv_line(std::vector<std::string> &t_factors) {
+std::string generate_csv_line(std::vector<std::string> t_factors) {
     std::string ret;
     bool first = true;
     for (std::string &each : t_factors) {
         if (!first) {
             ret += ",";
         }
-        ret += '"';
+        ret += '\"';
         ret += each;
-        ret += '"';
+        ret += '\"';
         first = false;
     }
     return ret;
@@ -115,7 +115,7 @@ bool Storage::writeToFile(void) {
     for (Meeting &each : m_meetingList) {
         meetings_ifs << generate_csv_line(
                             {each.getSponsor(), each.getParticipator(),
-                             each.getStartDate(), each.getEndDate(),
+                             Date::dateToString(each.getStartDate()), Date::dateToString(each.getEndDate()),
                              each.getTitle()}) << std::endl;
     }
     meetings_ifs.close();
@@ -126,9 +126,9 @@ bool Storage::writeToFile(void) {
 * get Instance of storage
 * @return the pointer of the instance
 */
-static std::shared_ptr<Storage> Storage::getInstance(void) {
+std::shared_ptr<Storage> Storage::getInstance(void) {
     if (m_instance == nullptr) {
-        m_instance.set(new Storage());
+        m_instance = std::shared_ptr<Storage>(new Storage);
     }
     return m_instance;
 }
@@ -196,9 +196,9 @@ int Storage::updateUser(std::function<bool(const User &)> filter,
 */
 int Storage::deleteUser(std::function<bool(const User &)> filter) {
     int deleted_count = 0;
-    for (auto it = m_userList.begin(); it = m_userList.end();) {
-        if (filter(each)) {
-            it = m_userList.remove(it);
+    for (auto it = m_userList.begin(); it == m_userList.end();) {
+        if (filter(*it)) {
+            it = m_userList.erase(it);
             deleted_count++;
             m_dirty = true;
         } else {
@@ -240,7 +240,7 @@ std::list<Meeting> Storage::queryMeeting(
 * @return the number of updated meetings
 */
 int Storage::updateMeeting(std::function<bool(const Meeting &)> filter,
-                  std::function<void(Meeting &)> switcher) {
+                           std::function<void(Meeting &)> switcher) {
     int updated_count = 0;
     for (auto &each : m_meetingList) {
         if (filter(each)) {
@@ -259,9 +259,9 @@ int Storage::updateMeeting(std::function<bool(const Meeting &)> filter,
 */
 int Storage::deleteMeeting(std::function<bool(const Meeting &)> filter) {
     int deleted_count = 0;
-    for (auto it = m_meetingList.begin(); it = m_meetingList.end();) {
-        if (filter(each)) {
-            it = m_meetingList.remove(it);
+    for (auto it = m_meetingList.begin(); it == m_meetingList.end();) {
+        if (filter(*it)) {
+            it = m_meetingList.erase(it);
             deleted_count++;
             m_dirty = true;
         } else {

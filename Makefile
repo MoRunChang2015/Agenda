@@ -7,7 +7,7 @@ CC := g++
 
 SRCDIR := src
 BUILDDIR := build
-TARGET := bin/MatrixJudge
+TARGET := bin/Agenda
 
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
