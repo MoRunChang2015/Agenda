@@ -1,6 +1,4 @@
 #include "Date.hpp"
-#include "Meeting.hpp"
-#include "User.hpp"
 #include <sstream>
 /**
 * @brief default constructor
@@ -17,7 +15,7 @@ Date::Date(int t_year, int t_month, int t_day, int t_hour, int t_minute)
 /**
 * @brief  constructor with a string
 */
-Date(std::string dateString) { *this = stringToDate(dateString); }
+Date::Date(std::string dateString) { (*this) = stringToDate(dateString); }
 /**
 * @brief return the year of a Date
 * @return   a integer indicate the year of a date
@@ -137,7 +135,7 @@ int string2Int(std::string s) {
 * @return a date
 */
 Date Date::stringToDate(const std::string t_dateString) {
-  Date resultDate();
+  Date resultDate;
   //检查字符串的格式是否正确．
   if (t_dateString.length() != 16) {
     return resultDate;
@@ -201,7 +199,7 @@ std::string int2String(int a) {
 std::string Date::dateToString(Date t_date) {
   std::string dateString = "";
   //若date的格式错误，则返回初始时间串0000-00-00/00:00
-  if (!t_date.isValid()) {
+  if (isValid(t_date)) {
     dateString = "0000-00-00/00:00";
     return dateString;
   }
@@ -217,13 +215,12 @@ std::string Date::dateToString(Date t_date) {
 *  @brief overload the assign operator
 */
 Date &Date::operator=(const Date &t_date) {
-  Date resultDate;
-  resultDate.setYear(t_date.getYear());
-  resultDate.setMonth(t_date.getMonth());
-  resultDate.setDay(t_date.getDay());
-  resultDate.setHour(t_date.getHour());
-  resultDate.setMinute(t_date.getMinute());
-  return resultDate;
+  this->setYear(t_date.getYear());
+  this->setMonth(t_date.getMonth());
+  this->setDay(t_date.getDay());
+  this->setHour(t_date.getHour());
+  this->setMinute(t_date.getMinute());
+  return (*this);
 }
 
 /**

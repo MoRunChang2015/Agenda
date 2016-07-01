@@ -1,5 +1,6 @@
 #include "Meeting.hpp"
-
+#include "Date.hpp"
+#include "User.hpp"
 /**
 *   @brief constructor with argument
 */
