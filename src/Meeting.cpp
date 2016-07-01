@@ -1,7 +1,6 @@
 #include "Meeting.hpp"
 #include "Date.hpp"
 #include "User.hpp"
-#include <iostream>
 #include <vector>
 /**
 *   @brief constructor with argument

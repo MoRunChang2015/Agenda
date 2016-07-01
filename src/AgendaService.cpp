@@ -2,7 +2,6 @@
 #include "User.hpp"
 #include "Meeting.hpp"
 #include "Date.hpp"
-#include <iostream>
 #include <list>
 #include <string>
 
@@ -132,8 +131,7 @@ bool AgendaService::createMeeting(const std::string userName,
                                   const std::vector<std::string> participator) {
     for (auto it = participator.begin(); it != participator.end(); it++) {
         for (auto itj = participator.begin(); itj != it; itj++) {
-            if ((*itj) == (*it))
-                return false;
+            if ((*itj) == (*it)) return false;
         }
     }
     Date sTime;

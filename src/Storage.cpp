@@ -1,10 +1,8 @@
-
-#include <Storage.hpp>
+#include "Storage.hpp"
 #include <fstream>
 #include <string>
 #include <sstream>
 #include <vector>
-#include <iostream>
 
 // instance of Storage
 std::shared_ptr<Storage> Storage::m_instance = nullptr;
@@ -16,7 +14,6 @@ Storage::Storage() {
     m_dirty = false;
     this->readFromFile();
 }
-
 
 /**
 *   remove the double quatations in the token
@@ -50,7 +47,6 @@ static std::vector<std::string> split(const std::string &t_str, char t_delim) {
     return tokens;
 }
 
-
 std::vector<std::string> stringToVector(std::string t_str) {
     std::stringstream ss(t_str);
     std::string item;
@@ -73,7 +69,7 @@ bool Storage::readFromFile(void) {
     }
     std::string line;
     // skip the first line
-    //std::getline(users_ifs, line);
+    // std::getline(users_ifs, line);
     while (std::getline(users_ifs, line)) {
         // remove the first and last character
         if (line.length() < 1) {
@@ -88,7 +84,7 @@ bool Storage::readFromFile(void) {
         m_userList.push_back({data[0], data[1], data[2], data[3]});
     }
     users_ifs.close();
-    //std::getline(users_ifs, line);
+    // std::getline(users_ifs, line);
     while (std::getline(meetings_ifs, line)) {
         // remove the first and last character
         if (line.length() < 1) {
@@ -100,7 +96,8 @@ bool Storage::readFromFile(void) {
         if (data.size() != 5) {
             continue;
         }
-        m_meetingList.push_back({data[0], stringToVector(data[1]), data[2], data[3], data[4]});
+        m_meetingList.push_back(
+            {data[0], stringToVector(data[1]), data[2], data[3], data[4]});
     }
     return true;
 }
@@ -125,7 +122,6 @@ std::string generate_csv_line(std::vector<std::string> t_factors) {
     return ret;
 }
 
-
 /**
 * convert the participatorlist to string
 * @param the source participatorlist
@@ -134,7 +130,8 @@ std::string generate_csv_line(std::vector<std::string> t_factors) {
 std::string vectorToString(std::vector<std::string> &participatorlist) {
     std::string result = "";
     bool isFirstItem = true;
-    for (auto it = participatorlist.begin(); it != participatorlist.end(); it++) {
+    for (auto it = participatorlist.begin(); it != participatorlist.end();
+         it++) {
         if (isFirstItem) {
             isFirstItem = false;
         } else {
@@ -163,8 +160,10 @@ bool Storage::writeToFile(void) {
     for (Meeting &each : m_meetingList) {
         auto participatorlist = each.getParticipator();
         meetings_ifs << generate_csv_line(
-                            {each.getSponsor(), vectorToString(participatorlist),
-                             Date::dateToString(each.getStartDate()), Date::dateToString(each.getEndDate()),
+                            {each.getSponsor(),
+                             vectorToString(participatorlist),
+                             Date::dateToString(each.getStartDate()),
+                             Date::dateToString(each.getEndDate()),
                              each.getTitle()}) << std::endl;
     }
     meetings_ifs.close();
