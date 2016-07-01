@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <iostream>
 
 // instance of Storage
 std::shared_ptr<Storage> Storage::m_instance = nullptr;
@@ -14,6 +15,22 @@ std::shared_ptr<Storage> Storage::m_instance = nullptr;
 Storage::Storage() {
     m_dirty = false;
     this->readFromFile();
+}
+
+
+/**
+*   remove the double quatations in the token
+*   @param tokens the source tokens
+*/
+static void removeQuatation(std::vector<std::string> &tokens) {
+    for (auto it = tokens.begin(); it != tokens.end(); it++) {
+        if ((*it)[0] == '\"') {
+            it->erase(it->begin());
+        }
+        if ((*it)[(*it).length() - 1] == '\"') {
+            it->erase((*it).length() - 1);
+        }
+    }
 }
 
 /**
@@ -29,6 +46,7 @@ static std::vector<std::string> split(const std::string &t_str, char t_delim) {
     while (getline(ss, item, t_delim)) {
         tokens.push_back(item);
     }
+    removeQuatation(tokens);
     return tokens;
 }
 
@@ -37,14 +55,14 @@ static std::vector<std::string> split(const std::string &t_str, char t_delim) {
 *   @return if success, true will be returned
 */
 bool Storage::readFromFile(void) {
-    std::ifstream users_ifs("../data/users.csv", std::ifstream::in);
-    std::ifstream meetings_ifs("../data/meetings.csv", std::ifstream::in);
+    std::ifstream users_ifs("data/users.csv", std::ios::in);
+    std::ifstream meetings_ifs("data/meetings.csv", std::ios::in);
     if (!(users_ifs.good() && meetings_ifs.good())) {
         return false;
     }
     std::string line;
     // skip the first line
-    std::getline(users_ifs, line);
+    //std::getline(users_ifs, line);
     while (std::getline(users_ifs, line)) {
         // remove the first and last character
         if (line.length() < 1) {
@@ -59,7 +77,7 @@ bool Storage::readFromFile(void) {
         m_userList.push_back({data[0], data[1], data[2], data[3]});
     }
     users_ifs.close();
-    std::getline(users_ifs, line);
+    //std::getline(users_ifs, line);
     while (std::getline(meetings_ifs, line)) {
         // remove the first and last character
         if (line.length() < 1) {
@@ -104,8 +122,8 @@ bool Storage::writeToFile(void) {
     if (!m_dirty) {
         return false;
     }
-    std::ofstream users_ifs("../data/users.csv", std::ifstream::out);
-    std::ofstream meetings_ifs("../data/meetings.csv", std::ifstream::out);
+    std::ofstream users_ifs("data/users.csv", std::ios::out);
+    std::ofstream meetings_ifs("data/meetings.csv", std::ios::out);
     for (User &each : m_userList) {
         users_ifs << generate_csv_line({each.getName(), each.getPassword(),
                                         each.getEmail(), each.getPhone()})
@@ -196,7 +214,7 @@ int Storage::updateUser(std::function<bool(const User &)> filter,
 */
 int Storage::deleteUser(std::function<bool(const User &)> filter) {
     int deleted_count = 0;
-    for (auto it = m_userList.begin(); it == m_userList.end();) {
+    for (auto it = m_userList.begin(); it != m_userList.end();) {
         if (filter(*it)) {
             it = m_userList.erase(it);
             deleted_count++;
@@ -259,7 +277,7 @@ int Storage::updateMeeting(std::function<bool(const Meeting &)> filter,
 */
 int Storage::deleteMeeting(std::function<bool(const Meeting &)> filter) {
     int deleted_count = 0;
-    for (auto it = m_meetingList.begin(); it == m_meetingList.end();) {
+    for (auto it = m_meetingList.begin(); it != m_meetingList.end();) {
         if (filter(*it)) {
             it = m_meetingList.erase(it);
             deleted_count++;
