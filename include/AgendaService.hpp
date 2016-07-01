@@ -60,8 +60,8 @@ class AgendaService {
      * @return if this meeting create success
      */
     bool createMeeting(const std::string userName, const std::string title,
-                       const std::string participator,
-                       const std::string startDate, const std::string endDate);
+                       const std::string startDate, const std::string endDate,
+                       const std::vector<std::string> participator);
 
     /**
      * search a meeting by username and title

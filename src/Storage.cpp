@@ -50,6 +50,17 @@ static std::vector<std::string> split(const std::string &t_str, char t_delim) {
     return tokens;
 }
 
+
+std::vector<std::string> stringToVector(std::string t_str) {
+    std::stringstream ss(t_str);
+    std::string item;
+    std::vector<std::string> participatorlist;
+    while (getline(ss, item, '&')) {
+        participatorlist.push_back(item);
+    }
+    return participatorlist;
+}
+
 /**
 *   read file content into memory
 *   @return if success, true will be returned
@@ -89,7 +100,7 @@ bool Storage::readFromFile(void) {
         if (data.size() != 5) {
             continue;
         }
-        m_meetingList.push_back({data[0], data[1], data[2], data[3], data[4]});
+        m_meetingList.push_back({data[0], stringToVector(data[1]), data[2], data[3], data[4]});
     }
     return true;
 }
@@ -114,6 +125,26 @@ std::string generate_csv_line(std::vector<std::string> t_factors) {
     return ret;
 }
 
+
+/**
+* convert the participatorlist to string
+* @param the source participatorlist
+* @return the result string
+*/
+std::string vectorToString(std::vector<std::string> &participatorlist) {
+    std::string result = "";
+    bool isFirstItem = true;
+    for (auto it = participatorlist.begin(); it != participatorlist.end(); it++) {
+        if (isFirstItem) {
+            isFirstItem = false;
+        } else {
+            result += '&';
+        }
+        result += *it;
+    }
+    return result;
+}
+
 /**
 *   write file content from memory
 *   @return if success, true will be returned
@@ -129,10 +160,10 @@ bool Storage::writeToFile(void) {
                                         each.getEmail(), each.getPhone()})
                   << std::endl;
     }
-    users_ifs.close();
     for (Meeting &each : m_meetingList) {
+        auto participatorlist = each.getParticipator();
         meetings_ifs << generate_csv_line(
-                            {each.getSponsor(), each.getParticipator(),
+                            {each.getSponsor(), vectorToString(participatorlist),
                              Date::dateToString(each.getStartDate()), Date::dateToString(each.getEndDate()),
                              each.getTitle()}) << std::endl;
     }

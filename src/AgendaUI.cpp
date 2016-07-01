@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <sstream>
 using std::cin;
 using std::cout;
 using std::endl;
@@ -232,19 +233,42 @@ void AgendaUI::listAllUsers(void) {
     cout << endl;
 }
 
+/*/**
+*   @brief convert the date to string, if result length is 1, add padding 0
+*/
+std::string turnInt2String(int a) {
+    std::string result;
+    std::stringstream ss;
+    ss << a;
+    ss >> result;
+    return result;
+}
+
 /**
  * user create a meeting with someone else
  */
 void AgendaUI::createMeeting(void) {
     cout << endl;
-    cout << "[create meeting] [title] [participator] "
+    cout << "[create meeting] [the number of participators]" << endl
+         << "[create meeting] ";
+    int num;
+    cin >> num;
+    std::vector<std::string> l;
+    string temp;
+    for (int i = 1; i <= num; i++) {
+        cout << "[create meeting] [please enter the participator " +
+                    turnInt2String(i) + " ]" << endl
+             << "[create meeting] ";
+        cin >> temp;
+        l.push_back(temp);
+    }
+    cout << "[create meeting] [title]"
          << "[start time(yyyy-mm-dd/hh:mm)] [end time(yyyy-mm-dd/hh:mm)]"
          << endl;
     cout << "[create meeting] ";
-    string participator, sTime, eTime, title;
-    cin >> title >> participator >> sTime >> eTime;
-    if (m_agendaService.createMeeting(m_userName, title, participator, sTime,
-                                      eTime)) {
+    string sTime, eTime, title;
+    cin >> title >> sTime >> eTime;
+    if (m_agendaService.createMeeting(m_userName, title, sTime, eTime, l)) {
         cout << "[create meeting] succeed!" << endl;
     } else {
         cout << "[create meeting] error!" << endl;
@@ -312,30 +336,13 @@ void AgendaUI::queryMeetingByTitle(void) {
     cout << "[query meeting] ";
     cin >> title;
     list<Meeting> l(m_agendaService.meetingQuery(m_userName, title));
-    // auto l = m_agendaService.meetingQuery(m_userName , title);
     if (l.empty()) {
         cout << "None" << endl;
         cout << endl;
         return;
+    } else {
+        printMeetings(l);
     }
-    cout << endl;
-    cout << setiosflags(ios::left);
-    cout << setw(15) << "sponsor";
-    cout << setw(15) << "participator";
-    cout << setw(18) << "start time";
-    cout << "end time";
-    cout << endl;
-    list<Meeting>::iterator it = l.begin();
-    while (it != l.end()) {
-        cout << setw(15) << it->getSponsor();
-        cout << setw(15) << it->getParticipator();
-        cout << setw(18) << Date::dateToString(it->getStartDate());
-        cout << Date::dateToString(it->getEndDate());
-        cout << endl;
-        it++;
-    }
-    cout << resetiosflags(ios::left);
-    cout << endl;
 }
 
 /**
@@ -350,7 +357,6 @@ void AgendaUI::queryMeetingByTimeInterval(void) {
     cin >> sTime >> eTime;
     cout << "[query meetings]" << endl;
     list<Meeting> l(m_agendaService.meetingQuery(m_userName, sTime, eTime));
-    // l = m_agendaService.meetingQuery(m_userName , sTime , eTime);
     cout << endl;
     if (l.empty()) {
         cout << "None" << endl;
@@ -391,23 +397,43 @@ void AgendaUI::deleteAllMeetings(void) {
 }
 
 /**
+* convert the participatorlist to string
+* @param the source participatorlist
+* @return the result string
+*/
+std::string turnVectorToString(std::vector<std::string> participatorlist) {
+    std::string result = "";
+    bool isFirstItem = true;
+    for (auto it = participatorlist.begin(); it != participatorlist.end();
+         it++) {
+        if (isFirstItem) {
+            isFirstItem = false;
+        } else {
+            result += ',';
+        }
+        result += *it;
+    }
+    return result;
+}
+
+/**
  * show the meetings in the screen
  */
 void AgendaUI::printMeetings(std::list<Meeting> meetings) {
     cout << setiosflags(ios::left);
     cout << setw(15) << "title";
     cout << setw(15) << "sponsor";
-    cout << setw(15) << "participator";
     cout << setw(18) << "start time";
-    cout << "end time";
+    cout << setw(18) << "end time";
+    cout << "participators";
     cout << endl;
-    list<Meeting>::iterator it = meetings.begin();
+    auto it = meetings.begin();
     while (it != meetings.end()) {
         cout << setw(15) << it->getTitle();
         cout << setw(15) << it->getSponsor();
-        cout << setw(15) << it->getParticipator();
         cout << setw(18) << Date::dateToString(it->getStartDate());
-        cout << Date::dateToString(it->getEndDate());
+        cout << setw(18) << Date::dateToString(it->getEndDate());
+        cout << turnVectorToString(it->getParticipator());
         cout << endl;
         it++;
     }

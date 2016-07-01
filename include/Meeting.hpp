@@ -2,6 +2,7 @@
 #define MEETING_H
 
 #include "Date.hpp"
+#include <vector>
 
 class Meeting {
 public:
@@ -13,7 +14,7 @@ public:
   /**
   *   @brief constructor with argument
   */
-  Meeting(std::string t_sponsor, std::string t_participator, Date t_startTime,
+  Meeting(std::string t_sponsor, std::vector<std::string> t_participator, Date t_startTime,
           Date t_endTime, std::string t_title);
 
   /**
@@ -34,16 +35,16 @@ public:
   void setSponsor(const std::string t_sponsor);
 
   /**
-  * @brief  get the participator of a meeting
-  * @return return a string indicate participator
+  * @brief  get the participators of a meeting
+  * @return return a string vector indicate participators
   */
-  std::string getParticipator(void) const;
+  std::vector<std::string> getParticipator(void) const;
 
   /**
-  *   @brief set the new participator of a meeting
-  *   @param the new participator string
+  *   @brief set the new participators of a meeting
+  *   @param the new participators vector
   */
-  void setParticipator(const std::string t_participator);
+  void setParticipator(const std::vector<std::string> t_participators);
 
   /**
   * @brief get the startDate of a meeting
@@ -80,9 +81,17 @@ public:
   * @param  the new title of a meeting
   */
   void setTitle(const std::string t_title);
+
+
+  /**
+  * @brief check if the user take part in this meeting
+  * @param t_username the source username
+  * @return if the user take part in this meeting
+  */
+  bool isParticipator(const std::string t_username) const;
 private:
   std::string m_sponsor;
-  std::string m_participator;
+  std::vector<std::string> m_participators;
   Date m_startDate;
   Date m_endDate;
   std::string m_title;

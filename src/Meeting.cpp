@@ -1,13 +1,15 @@
 #include "Meeting.hpp"
 #include "Date.hpp"
 #include "User.hpp"
+#include <iostream>
+#include <vector>
 /**
 *   @brief constructor with argument
 */
-Meeting::Meeting(std::string t_sponsor, std::string t_participator,
+Meeting::Meeting(std::string t_sponsor, std::vector<std::string> t_participator,
                  Date t_startDate, Date t_endDate, std::string t_title)
     : m_sponsor(t_sponsor),
-      m_participator(t_participator),
+      m_participators(t_participator),
       m_startDate(t_startDate),
       m_endDate(t_endDate),
       m_title(t_title) {}
@@ -17,7 +19,7 @@ Meeting::Meeting(std::string t_sponsor, std::string t_participator,
 */
 Meeting::Meeting(const Meeting &t_meeting)
     : m_sponsor(t_meeting.getSponsor()),
-      m_participator(t_meeting.getParticipator()),
+      m_participators(t_meeting.getParticipator()),
       m_startDate(t_meeting.getStartDate()),
       m_endDate(t_meeting.getEndDate()),
       m_title(t_meeting.getTitle()) {}
@@ -38,14 +40,16 @@ void Meeting::setSponsor(const std::string t_sponsor) { m_sponsor = t_sponsor; }
 * @brief  get the participator of a meeting
 * @return return a string indicate participator
 */
-std::string Meeting::getParticipator(void) const { return m_participator; }
+std::vector<std::string> Meeting::getParticipator(void) const {
+    return m_participators;
+}
 
 /**
 *   @brief set the new participator of a meeting
 *   @param the new participator string
 */
-void Meeting::setParticipator(const std::string t_participator) {
-    m_participator = t_participator;
+void Meeting::setParticipator(const std::vector<std::string> t_participator) {
+    m_participators = t_participator;
 }
 
 /**
@@ -85,3 +89,17 @@ std::string Meeting::getTitle(void) const { return m_title; }
 * @param  the new title of a meeting
 */
 void Meeting::setTitle(const std::string t_title) { m_title = t_title; }
+
+/**
+* @brief check if the user take part in this meeting
+* @param t_username the source username
+* @return if the user take part in this meeting
+*/
+bool Meeting::isParticipator(const std::string t_username) const {
+    for (auto it = m_participators.begin(); it != m_participators.end(); it++) {
+        if (*it == t_username) {
+            return true;
+        }
+    }
+    return false;
+}
