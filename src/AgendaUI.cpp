@@ -253,6 +253,10 @@ void AgendaUI::createMeeting(void) {
          << "[create meeting] ";
     int num;
     cin >> num;
+    if (num == 0) {
+        cout << "[create meeting] the number of participators can't be zero" << endl;
+        return;
+    }
     std::vector<std::string> l;
     string temp;
     for (int i = 1; i <= num; i++) {
@@ -331,7 +335,7 @@ void AgendaUI::listAllParticipateMeetings(void) {
  */
 void AgendaUI::queryMeetingByTitle(void) {
     cout << endl;
-    cout << "[query meeting] [titel]:" << endl;
+    cout << "[query meeting] [title]:" << endl;
     string title;
     cout << "[query meeting] ";
     cin >> title;
