@@ -248,6 +248,8 @@ bool Date::operator>(const Date &t_date) const {
     if (m_day < t_date.getDay()) return false;
     if (m_hour > t_date.getHour()) return true;
     if (m_hour < t_date.getHour()) return false;
+    if (m_minute > t_date.getMinute()) return true;
+    if (m_minute < t_date.getMinute()) return false;
     return false;
 }
 
