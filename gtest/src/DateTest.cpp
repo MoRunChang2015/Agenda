@@ -295,6 +295,10 @@ TEST(DateTest, DateToStr) {
     EXPECT_STREQ(Date::dateToString(date4).c_str(), "0000-00-00/00:00");
 }
 
+
+/*
+ *  Test operators
+ */
 TEST(DateTest, OperatorCheck) {
     string dateStr("1111-11-11/11:11");
     Date date(2016, 7, 7, 10, 01);
