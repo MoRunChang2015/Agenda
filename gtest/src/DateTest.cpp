@@ -9,11 +9,11 @@ using std::string;
  */
 TEST(DateTest, DefaultConstructor) {
     Date date;
-    EXPECT_EQ(date.getYear(), 0);
-    EXPECT_EQ(date.getMonth(), 0);
-    EXPECT_EQ(date.getDay(), 0);
-    EXPECT_EQ(date.getHour(), 0);
-    EXPECT_EQ(date.getMinute(), 0);
+    EXPECT_EQ(0, date.getYear());
+    EXPECT_EQ(0, date.getMonth());
+    EXPECT_EQ(0, date.getDay());
+    EXPECT_EQ(0, date.getHour());
+    EXPECT_EQ(0, date.getMinute());
 }
 
 /*
@@ -21,11 +21,11 @@ TEST(DateTest, DefaultConstructor) {
  */
 TEST(DateTest, IntConstructor) {
     Date date(2016, 7, 6, 12, 22);
-    EXPECT_EQ(date.getYear(), 2016);
-    EXPECT_EQ(date.getMonth(), 7);
-    EXPECT_EQ(date.getDay(), 6);
-    EXPECT_EQ(date.getHour(), 12);
-    EXPECT_EQ(date.getMinute(), 22);
+    EXPECT_EQ(2016, date.getYear());
+    EXPECT_EQ(7, date.getMonth());
+    EXPECT_EQ(6, date.getDay());
+    EXPECT_EQ(12, date.getHour());
+    EXPECT_EQ(22, date.getMinute());
 }
 
 /*
@@ -36,17 +36,17 @@ TEST(DateTest, StrConstructor) {
     Date testDate(validStr);
     Date blankDate;
     //  A valid case
-    EXPECT_EQ(testDate.getYear(), 2016);
-    EXPECT_EQ(testDate.getMonth(), 7);
-    EXPECT_EQ(testDate.getDay(), 6);
-    EXPECT_EQ(testDate.getHour(), 12);
-    EXPECT_EQ(testDate.getMinute(), 43);
+    EXPECT_EQ(2016, testDate.getYear());
+    EXPECT_EQ(7, testDate.getMonth());
+    EXPECT_EQ(6, testDate.getDay());
+    EXPECT_EQ(12, testDate.getHour());
+    EXPECT_EQ(43, testDate.getMinute());
     //  Some invalid cases in which date or time don't take enough digits
-    EXPECT_EQ(Date("16-07-06/12:43"), blankDate);
-    EXPECT_EQ(Date("2016-7-06/12:43"), blankDate);
-    EXPECT_EQ(Date("2016-07-6/12:43"), blankDate);
-    EXPECT_EQ(Date("2016-07-06/2:43"), blankDate);
-    EXPECT_EQ(Date("2016-07-06/12:3"), blankDate);
+    EXPECT_EQ(blankDate, Date("16-07-06/12:43"));
+    EXPECT_EQ(blankDate, Date("2016-7-06/12:43"));
+    EXPECT_EQ(blankDate, Date("2016-07-6/12:43"));
+    EXPECT_EQ(blankDate, Date("2016-07-06/2:43"));
+    EXPECT_EQ(blankDate, Date("2016-07-06/12:3"));
     //  Some invalid cases with wrong connecting symbols
     string testChar(" `~-_+=!@#$%^&*()[]{}\\|:;\'\",.<>/?");
     for (int i = 0; i < testChar.size(); ++i) {
@@ -54,17 +54,17 @@ TEST(DateTest, StrConstructor) {
         if (testChar[i] != '-') {
             invalidStr = validStr;
             invalidStr[4] = testChar[i];
-            EXPECT_EQ(Date(invalidStr), blankDate);
+            EXPECT_EQ(blankDate, (invalidStr));
         }
         if (testChar[i] != '/') {
             invalidStr = validStr;
             invalidStr[10] = testChar[i];
-            EXPECT_EQ(Date(invalidStr), blankDate);
+            EXPECT_EQ(blankDate, (invalidStr));
         }
         if (testChar[i] != ':') {
             invalidStr = validStr;
             invalidStr[13] = testChar[i];
-            EXPECT_EQ(Date(invalidStr), blankDate);
+            EXPECT_EQ(blankDate, (invalidStr));
         }
     }
 }
@@ -122,11 +122,11 @@ TEST(DateTest, SetFunctions) {
     date.setDay(15);
     date.setHour(13);
     date.setMinute(0);
-    EXPECT_EQ(date.getYear(), 2014);
-    EXPECT_EQ(date.getMonth(), 8);
-    EXPECT_EQ(date.getDay(), 15);
-    EXPECT_EQ(date.getHour(), 13);
-    EXPECT_EQ(date.getMinute(), 0);
+    EXPECT_EQ(2014, date.getYear());
+    EXPECT_EQ(8, date.getMonth());
+    EXPECT_EQ(15, date.getDay());
+    EXPECT_EQ(13, date.getHour());
+    EXPECT_EQ(0, date.getMinute());
 }
 
 /*
@@ -286,13 +286,13 @@ TEST(DateTest, ValidationCheck) {
  */
 TEST(DateTest, DateToStr) {
     Date date1(2016, 7, 6, 17, 19);
-    EXPECT_STREQ(Date::dateToString(date1).c_str(), "2016-07-06/17:19");
+    EXPECT_STREQ("2016-07-06/17:19", Date::dateToString(date1).c_str());
     Date date2(1001, 12, 5, 0, 1);
-    EXPECT_STREQ(Date::dateToString(date2).c_str(), "1001-12-05/00:01");
+    EXPECT_STREQ("1001-12-05/00:01", Date::dateToString(date2).c_str());
     Date date3;
-    EXPECT_STREQ(Date::dateToString(date3).c_str(), "0000-00-00/00:00");
+    EXPECT_STREQ("0000-00-00/00:00", Date::dateToString(date3).c_str());
     Date date4(1800, 2, 29, 12, 12);
-    EXPECT_STREQ(Date::dateToString(date4).c_str(), "0000-00-00/00:00");
+    EXPECT_STREQ("0000-00-00/00:00", Date::dateToString(date4).c_str());
 }
 
 
@@ -309,6 +309,8 @@ TEST(DateTest, OperatorCheck) {
     EXPECT_TRUE(date == date1);
     EXPECT_TRUE(date >= date1);
     EXPECT_TRUE(date <= date1);
+    EXPECT_FALSE(date < date1);
+    EXPECT_FALSE(date > date1);
     //  Greater or less than
     date = Date::stringToDate(dateStr);
     for (int i = 0; i < dateStr.size(); ++i) {

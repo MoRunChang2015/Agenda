@@ -12,21 +12,27 @@ User defaultUser;
 User strUser(name, password, email, phone);
 User anotherUser(strUser);
 
+/*
+ *  Test basic Set and Get functions
+ */
 TEST(UserTest, SetAndGetFunctions) {
     defaultUser.setName(name);
     defaultUser.setPassword(password);
     defaultUser.setEmail(email);
     defaultUser.setPhone(phone);
-    EXPECT_STREQ(defaultUser.getName().c_str(), name.c_str());
-    EXPECT_STREQ(defaultUser.getPassword().c_str(), password.c_str());
-    EXPECT_STREQ(defaultUser.getEmail().c_str(), email.c_str());
-    EXPECT_STREQ(defaultUser.getPhone().c_str(), phone.c_str());
+    EXPECT_STREQ(name.c_str(), defaultUser.getName().c_str());
+    EXPECT_STREQ(password.c_str(), defaultUser.getPassword().c_str());
+    EXPECT_STREQ(email.c_str(), defaultUser.getEmail().c_str());
+    EXPECT_STREQ(phone.c_str(), defaultUser.getPhone().c_str());
 }
 
+/*
+ *  Test copy constructor
+ */
 TEST(UserTest, CopyConstructor) {
-    EXPECT_STREQ(strUser.getName().c_str(), anotherUser.getName().c_str());
-    EXPECT_STREQ(strUser.getPhone().c_str(), anotherUser.getPhone().c_str());
-    EXPECT_STREQ(strUser.getEmail().c_str(), anotherUser.getEmail().c_str());
-    EXPECT_STREQ(strUser.getPassword().c_str(), anotherUser.getPassword().c_str());
+    EXPECT_STREQ(anotherUser.getName().c_str(), strUser.getName().c_str());
+    EXPECT_STREQ(anotherUser.getPhone().c_str(), strUser.getPhone().c_str());
+    EXPECT_STREQ(anotherUser.getEmail().c_str(), strUser.getEmail().c_str());
+    EXPECT_STREQ(anotherUser.getPassword().c_str(), strUser.getPassword().c_str());
 }
 

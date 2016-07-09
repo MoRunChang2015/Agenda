@@ -7,8 +7,10 @@ TESTSRCDIR = src
 TESTBUILDDIR = build
 TESTBINDIR = bin
 SOURCES = $(shell find $(TESTSRCDIR) -type f -name *.cpp)
-TARGET = $(patsubst %.cpp, %, $(SOURCES))
+TARGET =$(notdir $(patsubst %.cpp, %, $(SOURCES)))
 TESTOBJECTS = $(patsubst %.cpp, %.o, $(SOURCES))
+
+all: bin/DateTest bin/UserTest bin/MeetingTest bin/StorageTest
 
 bin/DateTest: $(TESTBUILDDIR)/DateTest.o $(BUILDDIR)/Date.o
 	$(CC) $^ $(CCFLAG) -o $@
@@ -18,6 +20,16 @@ $(TESTBUILDDIR)/DateTest.o: $(TESTSRCDIR)/DateTest.cpp
 bin/UserTest: $(TESTBUILDDIR)/UserTest.o $(BUILDDIR)/User.o
 	$(CC) $^ $(CCFLAG) -o $@
 $(TESTBUILDDIR)/UserTest.o: $(TESTSRCDIR)/UserTest.cpp
+	$(CC) $^ $(INC) -std=c++11 -c -o $@
+
+bin/MeetingTest: $(TESTBUILDDIR)/MeetingTest.o $(BUILDDIR)/Meeting.o $(BUILDDIR)/Date.o
+	$(CC) $^ $(CCFLAG) -o $@
+$(TESTBUILDDIR)/MeetingTest.o: $(TESTSRCDIR)/MeetingTest.cpp
+	$(CC) $^ $(INC) -std=c++11 -c -o $@
+
+bin/StorageTest: $(TESTBUILDDIR)/StorageTest.o $(BUILDDIR)/Storage.o $(BUILDDIR)/Meeting.o $(BUILDDIR)/User.o $(BUILDDIR)/Date.o
+	$(CC) $^ $(CCFLAG) -o $@
+$(TESTBUILDDIR)/StorageTest.o: $(TESTSRCDIR)/StorageTest.cpp
 	$(CC) $^ $(INC) -std=c++11 -c -o $@
 
 dir:
