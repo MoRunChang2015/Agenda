@@ -257,7 +257,7 @@ bool Date::operator>(const Date &t_date) const {
 * @brief check whether the CurrentDate is  less than the t_date
 */
 bool Date::operator<(const Date &t_date) const {
-    return !((*this) > t_date && (*this) == t_date);
+    return !((*this) > t_date || (*this) == t_date);
 }
 
 /**
