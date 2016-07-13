@@ -88,6 +88,7 @@ TEST(DateTest, StrToDate) {
     EXPECT_EQ(Date::stringToDate("2016-07-6/12:43"), blankDate);
     EXPECT_EQ(Date::stringToDate("2016-07-06/2:43"), blankDate);
     EXPECT_EQ(Date::stringToDate("2016-07-06/12:3"), blankDate);
+    EXPECT_EQ(Date::stringToDate("2.16-07-06/12:30"), blankDate);
 
     string testChar(" `~-_+=!@#$%^&*()[]{}\\|:;\'\",.<>/?");
     for (int i = 0; i < testChar.size(); ++i) {
@@ -304,7 +305,7 @@ TEST(DateTest, OperatorCheck) {
     Date date(2016, 7, 7, 10, 01);
     //  Assign
     Date date1 = date;
-    EXPECT_STREQ(Date::dateToString(date).c_str(), Date::dateToString(date1).c_str());
+    ASSERT_EQ(Date::dateToString(date), Date::dateToString(date1));
     //  Equal
     EXPECT_TRUE(date == date1);
     EXPECT_TRUE(date >= date1);
