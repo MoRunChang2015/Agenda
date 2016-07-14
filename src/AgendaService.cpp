@@ -243,6 +243,7 @@ std::list<Meeting> AgendaService::meetingQuery(
     eTime = Date::stringToDate(endDate);
     if (!Date::isValid(sTime)) return l;
     if (!Date::isValid(eTime)) return l;
+    if (sTime > eTime) return l;
     l = m_storage->queryMeeting([&userName, &sTime, &eTime](const Meeting& a) {
         if (a.getSponsor() == userName || a.isParticipator(userName)) {
             if (a.getStartDate() <= sTime && a.getEndDate() >= sTime)
