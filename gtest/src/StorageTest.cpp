@@ -7,6 +7,7 @@
 #include <iterator>
 #include <fstream>
 #include <iostream>
+#include "utility.h"
 
 #define TESTWRITETOFILE
 //  Haven't found a good method to test writeToFile yet
@@ -27,10 +28,15 @@ using std::vector;
 using std::shared_ptr;
 using std::function;
 
+using namespace utility;
+
 class StorageTest: public ::testing::Test {
     //  Use static variables to hold the configuration for the entire StorageTest case
     //  After each test, TearDown() method will be invoked automatically and set the the storage to default
 protected:
+    static void TearDownTestCase() {
+        recFiles();
+    }
     virtual void SetUp() {
         storage = Storage::getInstance();
         simUserList = {user1, user2, user3};
@@ -46,55 +52,6 @@ protected:
         storage->createMeeting(meeting2);
     }
 
-    bool judgeUserEqual(const User &user1, const User &user2) {
-        if (user1.getName() == user2.getName() &&
-            user1.getPassword() == user2.getPassword() &&
-            user1.getEmail() == user2.getEmail() &&
-            user1.getPhone() == user2.getPhone()) {
-            return true;
-        }
-        return false;
-    }
-    bool judgeMeetingEqual(const Meeting &meeting1, const Meeting &meeting2) {
-        if (meeting1.getSponsor() == meeting2.getSponsor() &&
-            meeting1.getParticipator() == meeting2.getParticipator() &&
-            meeting1.getStartDate() == meeting2.getStartDate() &&
-            meeting1.getEndDate() == meeting2.getEndDate() &&
-            meeting1.getTitle() == meeting2.getTitle()) {
-            return true;
-        }
-        return false;
-    }
-    bool findUser(const list<User> &list, const User &user) {
-        for (auto &_user : list) {
-            if (judgeUserEqual(_user, user)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    bool findMeeting(const list<Meeting> &list, const Meeting &meeting) {
-        for (auto &_meeting : list) {
-            if (judgeMeetingEqual(_meeting, meeting)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    //  We do not care about the order of the users(meetings)
-    //  Just to verify that all the users(meetings) are in the list
-    void testUserList(const list<User> &userList) {
-        EXPECT_EQ(simUserList.size(), userList.size());
-        for (auto &user : simUserList) {
-            EXPECT_TRUE(findUser(userList, user));
-        }
-    }
-    void testMeetingList(const list<Meeting> &meetingList) {
-        EXPECT_EQ(simMeetingList.size(), meetingList.size());
-        for (auto &meeting : simMeetingList) {
-            EXPECT_TRUE(findMeeting(meetingList, meeting)) << meeting.getTitle();
-        }
-    }
     static bool getAllUser(const User &user) {
         return true;
     }
@@ -140,8 +97,8 @@ TEST_F(StorageTest, Singleton) {
 TEST_F(StorageTest, Initialization) {
     list<User> userList = storage->queryUser(getAllUser);
     list<Meeting> meetingList = storage->queryMeeting(getAllMeeting);
-    testUserList(userList);
-    testMeetingList(meetingList);
+    utility::testUserList(simUserList, userList);
+    utility::testMeetingList(simMeetingList, meetingList);
 }
 
 /*
@@ -152,7 +109,7 @@ TEST_F(StorageTest, UserOperation) {
     storage->createUser(user4);
     simUserList.push_back(user4);
     list<User> userList = storage->queryUser(getAllUser);
-    testUserList(userList);
+    utility::testUserList(simUserList, userList);
     //  Update user
     string snakeName = "Venom Snake", snakePassword = "MetalGearSolidV";
     auto filter = [&](const User &user) {
@@ -173,7 +130,7 @@ TEST_F(StorageTest, UserOperation) {
     }
     EXPECT_EQ(2, updateNum);
     userList = storage->queryUser(getAllUser);
-    testUserList(userList);
+    utility::testUserList(simUserList, userList);
     //  Delete user
     storage->deleteUser([&](const User &user) {
             if (user.getName() == "Lara Croft" || user.getName() == "Trevor Philips") {
@@ -184,7 +141,7 @@ TEST_F(StorageTest, UserOperation) {
     userList = storage->queryUser(getAllUser);
     simUserList.pop_back();
     simUserList.erase(simUserList.begin()++);
-    testUserList(userList);
+    utility::testUserList(simUserList, userList);
 }
 
 /*
@@ -195,7 +152,7 @@ TEST_F(StorageTest, MeetingOperation) {
     storage->createMeeting(meeting3);
     simMeetingList.push_back(meeting3);
     list<Meeting> meetingList = storage->queryMeeting(getAllMeeting);
-    testMeetingList(meetingList);
+    utility::testMeetingList(simMeetingList, meetingList);
     //  Update meeting
     auto filter = [&](const Meeting &meeting) {
         return judgeMeetingEqual(meeting, meeting2) || judgeMeetingEqual(meeting, meeting3);
@@ -217,7 +174,7 @@ TEST_F(StorageTest, MeetingOperation) {
     }
     EXPECT_EQ(2, updateNum);
     meetingList = storage->queryMeeting(getAllMeeting);
-    testMeetingList(meetingList);
+    utility::testMeetingList(simMeetingList, meetingList);
     //  Delete meeting
     storage->deleteMeeting([&](const Meeting &meeting) {
             if (meeting.getTitle() == "?????" ||
@@ -229,7 +186,7 @@ TEST_F(StorageTest, MeetingOperation) {
     simMeetingList.pop_front();
     simMeetingList.pop_back();
     meetingList = storage->queryMeeting(getAllMeeting);
-    testMeetingList(meetingList);
+    utility::testMeetingList(simMeetingList, meetingList);
 }
 
 #ifdef TESTWRITETOFILE
@@ -237,22 +194,7 @@ TEST_F(StorageTest, MeetingOperation) {
 class StoragePrivateTest : public StorageTest {
 public:
     virtual void TearDown() {
-        std::fstream userStandardfs("standardData/rec_users.csv", std::ios::in);
-        std::fstream userTestfs("data/users.csv", std::ios::out|std::ios::trunc);
-        string record;
-        while (std::getline(userStandardfs, record)) {
-            userTestfs << record << "\n";
-        }
-
-        std::fstream meetingStandardfs("standardData/rec_meetings.csv", std::ios::in);
-        std::fstream meetingTestfs("data/meetings.csv", std::ios::out|std::ios::trunc);
-        while (std::getline(meetingStandardfs, record)) {
-            meetingTestfs << record << "\n";
-        }
-        userStandardfs.close();
-        userTestfs.close();
-        meetingStandardfs.close();
-        meetingTestfs.close();
+        recFiles();
     }
 };
 

@@ -28,12 +28,15 @@ bin/MeetingTest: $(TESTBUILDDIR)/MeetingTest.o $(BUILDDIR)/Meeting.o $(BUILDDIR)
 $(TESTBUILDDIR)/MeetingTest.o: $(TESTSRCDIR)/MeetingTest.cpp
 	$(CC) $^ $(INC) $(CCTESTFLAG) -o $@
 
-bin/StorageTest: $(TESTBUILDDIR)/StorageTest.o $(BUILDDIR)/Storage.o $(BUILDDIR)/Meeting.o $(BUILDDIR)/User.o $(BUILDDIR)/Date.o
+bin/StorageTest: $(TESTBUILDDIR)/StorageTest.o $(BUILDDIR)/Storage.o $(BUILDDIR)/Meeting.o $(BUILDDIR)/User.o $(BUILDDIR)/Date.o $(TESTBUILDDIR)/utility.o
 	$(CC) $^ $(CCFLAG) -o $@
 $(TESTBUILDDIR)/StorageTest.o: $(TESTSRCDIR)/StorageTest.cpp
 	$(CC) $^ $(INC) $(CCTESTFLAG) -o $@
 
-bin/AgendaServiceTest: $(TESTBUILDDIR)/AgendaServiceTest.o $(BUILDDIR)/AgendaService.o $(BUILDDIR)/Storage.o $(BUILDDIR)/Meeting.o $(BUILDDIR)/User.o $(BUILDDIR)/Date.o
+$(TESTBUILDDIR)/utility.o: $(TESTSRCDIR)/utility.cpp
+	$(CC) $^ $(INC) $(CCTESTFLAG) -o $@
+
+bin/AgendaServiceTest: $(TESTBUILDDIR)/AgendaServiceTest.o $(BUILDDIR)/AgendaService.o $(BUILDDIR)/Storage.o $(BUILDDIR)/Meeting.o $(BUILDDIR)/User.o $(BUILDDIR)/Date.o $(TESTBUILDDIR)/utility.o
 	$(CC) $^ $(CCFLAG) -o $@
 $(TESTBUILDDIR)/AgendaServiceTest.o: $(TESTSRCDIR)/AgendaServiceTest.cpp
 	$(CC) $^ $(INC) $(CCTESTFLAG) -o $@
