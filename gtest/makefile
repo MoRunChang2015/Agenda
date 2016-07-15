@@ -41,8 +41,11 @@ bin/AgendaServiceTest: $(TESTBUILDDIR)/AgendaServiceTest.o $(BUILDDIR)/AgendaSer
 $(TESTBUILDDIR)/AgendaServiceTest.o: $(TESTSRCDIR)/AgendaServiceTest.cpp
 	$(CC) $^ $(INC) $(CCTESTFLAG) -o $@
 
+$(BUILDDIR)/%.o:
+	cd ../ && make
+
 dir:
 	mkdir -p $(TESTBINDIR)
 	mkdir -p $(TESTBUILDDIR)
 clean:
-	rm src/*~ $(TESTBUILDDIR)/*
+	rm -rf src/*~ $(TESTBUILDDIR)/*
