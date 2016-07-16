@@ -19,6 +19,7 @@ STATIC_ANALYZER := oclint
 $(TARGET) : $(OBJECTS)
 	@echo " Linking "
 	@mkdir -p bin
+	@mkdir -p data
 	@echo " $(CC) $^ -o $(TARGET) $(LIB) $(LINKER)"; $(CC) $^ -o $(TARGET)
 
 $(BUILDDIR)/%.o : $(SRCDIR)/%.$(SRCEXT)
@@ -31,5 +32,6 @@ static-analyze:
 clean:
 	@echo " Cleaning... "
 	@echo " rm -rf $(BUILDDIR) $(TARGET)"; rm -rf $(BUILDDIR) $(TARGET)
+
 
 .PHONY: clean
