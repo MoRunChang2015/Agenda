@@ -198,6 +198,9 @@ public:
     }
 };
 
+/*
+ *  If no data files to read, then create empty lists
+ */
 TEST_F(StoragePrivateTest, NoFileToRead) {
     storage->m_instance.reset();
     ASSERT_EQ(1, storage.use_count());

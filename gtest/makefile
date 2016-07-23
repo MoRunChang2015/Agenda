@@ -49,3 +49,7 @@ dir:
 	mkdir -p $(TESTBUILDDIR)
 clean:
 	rm -rf src/*~ $(TESTBUILDDIR)/*
+
+
+result:
+	g++ src/testXML.cpp src/Result.cpp build/tinyxml2.o -std=c++11 -lmysqlpp -g -o testXML
