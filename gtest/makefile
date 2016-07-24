@@ -51,5 +51,7 @@ clean:
 	rm -rf src/*~ $(TESTBUILDDIR)/*
 
 
-result:
-	g++ src/testXML.cpp src/Result.cpp build/tinyxml2.o -std=c++11 -lmysqlpp -g -o testXML
+result: build/tinyxml2.o
+	g++ test/testXML.cpp src/parseXML.cpp build/tinyxml2.o  -I src/ -std=c++11 -lmysqlpp -g -o bin/testXML
+build/tinyxml2.o:src/tinyxml2.cpp src/tinyxml2.h
+	g++ $< -I src/ -c -o $@

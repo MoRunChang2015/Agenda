@@ -30,7 +30,7 @@ void traverseTree(tinyxml2::XMLElement *root, json &config, Result &result) {
             int deduction = config[root->Attribute("name")];
             result.grade -= deduction;
             json test;
-            test["deduction"] = deduction;
+            test[root->Attribute("name")] = deduction;
             json message;
             collectMessage(root->FirstChildElement(), message);
             test["message"] = message;
