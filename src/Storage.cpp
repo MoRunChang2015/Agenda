@@ -62,8 +62,8 @@ std::vector<std::string> stringToVector(std::string t_str) {
 *   @return if success, true will be returned
 */
 bool Storage::readFromFile(void) {
-    std::ifstream users_ifs("data/users.csv", std::ios::in);
-    std::ifstream meetings_ifs("data/meetings.csv", std::ios::in);
+    std::ifstream users_ifs("tmp/data/users.csv", std::ios::in);
+    std::ifstream meetings_ifs("tmp/data/meetings.csv", std::ios::in);
     if (!(users_ifs.good() && meetings_ifs.good())) {
         return false;
     }
@@ -150,8 +150,8 @@ bool Storage::writeToFile(void) {
     if (!m_dirty) {
         return false;
     }
-    std::ofstream users_ifs("data/users.csv", std::ios::out);
-    std::ofstream meetings_ifs("data/meetings.csv", std::ios::out);
+    std::ofstream users_ifs("tmp/data/users.csv", std::ios::out);
+    std::ofstream meetings_ifs("tmp/data/meetings.csv", std::ios::out);
     for (User &each : m_userList) {
         users_ifs << generate_csv_line({each.getName(), each.getPassword(),
                                         each.getEmail(), each.getPhone()})
