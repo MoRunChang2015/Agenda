@@ -22,6 +22,15 @@ namespace utility {
     bool testMeetingList(const list<Meeting> &expectList,
                          const list<Meeting> &actualList);
     void recFiles();
+
+    //  Path to csv
+    const char *const userPath = "data/users.csv";
+    const char *const meetingPath = "data/meetings.csv";
+    const char *const stdUserPath = "standardData/rec_users.csv";
+    const char *const stdMeetingPath = "standardData/rec_meetings.csv";
+    const char *const cmpUserPath = "standardData/users.csv";
+    const char *const cmpMeetingPath = "standardData/meetings.csv";
+
 }
 
 #endif /* UTILITY_H */

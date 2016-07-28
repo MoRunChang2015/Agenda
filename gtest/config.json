@@ -5,7 +5,8 @@
             "User.cpp"
         ],
         "support":[
-            "User.hpp"
+            "User.hpp",
+            "UserTest.o"
         ]
     },
     "limits":{
@@ -22,15 +23,18 @@
         "style check":0,
         "memory check":0,
         "random tests":0,
-        "google tests":{
-            "total":70,
-            "detail":{
-                "SetAndGetFunctions":35,
-                "CopyConstructor":35
-            }
+        "google tests":70,
+        "google tests detail":{
+            "SetAndGetFunctions":35,
+            "CopyConstructor":35
         }
     },
+    "google tests info":{
+        "SetAndGetFunctions":"Tests on setters and getters",
+        "CopyConstructor":"Test the copy constructor as well as constructor with parameters"
+    },
     "random":{
+
     },
     "standard_language":"c++",
     "entry_point":"standard_main.exe",
@@ -38,10 +42,10 @@
     "compilers":{
         "c++":{
             "version":"default",
-            "command":"g++ CODE_FILES UserTest.o -Werror -g -lgtest -lpthread -lgtest_main -std=c++11 -o OUTPUT_PROGRAM"
+            "command":"g++ CODE_FILES -Werror -g -lgtest -lpthread -lgtest_main -std=c++11 -o OUTPUT_PROGRAM"
         }
     },
-    "exec_flag":"--gtest_output=xml:UserTestResult.xml"
+    "exec_flag":"--gtest_output=xml:/tmp/UserTestResult.xml"
 }
 
 //  DateTest
@@ -51,7 +55,8 @@
             "Date.cpp"
         ],
         "support":[
-            "Date.hpp"
+            "Date.hpp",
+            "DateTest.o"
         ]
     },
     "limits":{
@@ -68,21 +73,30 @@
         "style check":0,
         "memory check":0,
         "random tests":0,
-        "google tests":{
-            "total":70,
-            "detail":{
-                "DefaultConstructor":5,
-                "IntConstructor":5,
-                "StrConstructor":10,
-                "StrToDate":10,
-                "SetFunctions":5,
-                "ValidationCheck":20,
-                "DateToStr":5,
-                "OperatorCheck":10
-            }
+        "google tests":70,
+        "google tests detail":{
+            "DefaultConstructor":5,
+            "IntConstructor":5,
+            "StrConstructor":10,
+            "StrToDate":10,
+            "SetFunctions":5,
+            "ValidationCheck":20,
+            "DateToStr":5,
+            "OperatorCheck":10
         }
     },
+    "google tests info":{
+        "DefaultConstructor":"Tests on the constructor with no parameter",
+        "IntConstructor":"Tests on the constructor with parameters in integers",
+        "StrConstructor":"Tests on the constructor with parameters in string",
+        "StrToDate":"Tests on conversion from string to Date",
+        "SetFunctions":"Tests on setters and getters",
+        "ValidationCheck":"Tests on `Date::isValid(const Date)`",
+        "DateToStr":"Tests on conversion from string to Date",
+        "OperatorCheck":"Tests on date comparsions"
+    },
     "random":{
+
     },
     "standard_language":"c++",
     "entry_point":"standard_main.exe",
@@ -90,10 +104,10 @@
     "compilers":{
         "c++":{
             "version":"default",
-            "command":"g++ CODE_FILES DateTest.o -Werror -g -lgtest -lpthread -lgtest_main -std=c++11 -o OUTPUT_PROGRAM"
+            "command":"g++ CODE_FILES -Werror -g -lgtest -lpthread -lgtest_main -std=c++11 -o OUTPUT_PROGRAM"
         }
     },
-    "exec_flag":"--gtest_output=xml:DateTestResult.xml"
+    "exec_flag":"--gtest_output=xml:/tmp/DateTestResult.xml"
 }
 
 //  MeetingTest
@@ -101,13 +115,14 @@
     "code_files":{
         "answer":[
             "Meeting.cpp",
-            "User.cpp",
-            "Meeting.cpp"
+            "Date.cpp",
+            "User.cpp"
         ],
         "support":[
             "Meeting.hpp",
             "User.hpp",
-            "Meeting.hpp"
+            "Meeting.hpp",
+            "MeetingTest.o "
         ]
     },
     "limits":{
@@ -124,16 +139,20 @@
         "style check":0,
         "memory check":0,
         "random tests":0,
-        "google tests":{
-            "total":70,
-            "detail":{
-                "SetAndGetFunctions":20,
-                "Constructors":30,
-                "IsParticipatorCheck":30
-            }
+        "google tests":70,
+        "google tests detail":{
+            "SetAndGetFunctions":20,
+            "Constructors":30,
+            "IsParticipatorCheck":30
         }
     },
+    "google tests info":{
+        "SetAndGetFunctions":"Tests on setters and getters",
+        "Constructors":"Tests on constructors",
+        "IsParticipatorCheck":"Tests on `isParticipator(const std::string)`"
+    },
     "random":{
+
     },
     "standard_language":"c++",
     "entry_point":"standard_main.exe",
@@ -141,10 +160,10 @@
     "compilers":{
         "c++":{
             "version":"default",
-            "command":"g++ CODE_FILES MeetingTest.o -Werror -g -lgtest -lpthread -lgtest_main -std=c++11 -o OUTPUT_PROGRAM"
+            "command":"g++ CODE_FILES -Werror -g -lgtest -lpthread -lgtest_main -std=c++11 -o OUTPUT_PROGRAM"
         }
     },
-    "exec_flag":"--gtest_output=xml:MeetingTest.xml"
+    "exec_flag":"--gtest_output=xml:/tmp/MeetingTestResult.xml"
 }
 
 //  StorageTest
@@ -153,14 +172,16 @@
         "answer":[
             "Storage.cpp",
             "Meeting.cpp",
-            "User.cpp",
-            "Meeting.cpp"
+            "User.cpp"
         ],
         "support":[
             "Storage.hpp",
             "Meeting.hpp",
             "User.hpp",
-            "Meeting.hpp"
+            "Date.hpp",
+            "utility.h",
+            "StorageTest.o",
+            "utility.o"
         ]
     },
     "limits":{
@@ -177,19 +198,26 @@
         "style check":0,
         "memory check":0,
         "random tests":0,
-        "google tests":{
-            "total":70,
-            "detail":{
-                "Singleton":5,
-                "Initialization":10,
-                "UserOperation":15,
-                "MeetingOperation":15,
-                "NoFileToRead":10,
-                "WriteToFile":15
-            }
+        "google tests":70,
+        "google tests detail":{
+            "Singleton":5,
+            "Initialization":10,
+            "UserOperation":15,
+            "MeetingOperation":15,
+            "NoFileToRead":10,
+            "WriteToFile":15
         }
     },
+    "google tests info":{
+        "Singleton":"Test if the singleton works",
+        "Initialization":"Test if Storage can start and read files correctly",
+        "UserOperation":"Tests on creating, updating and deleting users",
+        "MeetingOperation":"Tests on creating updating and deleting meetings",
+        "NoFileToRead":"Test if Storage functions when no file to read",
+        "WriteToFile":"Test if Storage writes to files correctly when shut down"
+    },
     "random":{
+
     },
     "standard_language":"c++",
     "entry_point":"standard_main.exe",
@@ -197,10 +225,10 @@
     "compilers":{
         "c++":{
             "version":"default",
-            "command":"g++ CODE_FILES StorageTest.o -Werror -g -lgtest -lpthread -lgtest_main -std=c++11 -o OUTPUT_PROGRAM"
+            "command":"g++ CODE_FILES -Werror -g -lgtest -lpthread -lgtest_main -std=c++11 -o OUTPUT_PROGRAM"
         }
     },
-    "exec_flag":"--gtest_output=xml:StorageTest.xml"
+    "exec_flag":"--gtest_output=xml:/tmp/StorageTestResult.xml"
 }
 
 //  AgendaServiceTest
@@ -214,11 +242,12 @@
             "Meeting.cpp"
         ],
         "support":[
-            "AgendaService.cpp",
+            "AgendaService.hpp",
             "Storage.hpp",
             "Meeting.hpp",
             "User.hpp",
-            "Meeting.hpp"
+            "Meeting.hpp",
+            "AgendaServiceTest.o"
         ]
     },
     "limits":{
@@ -235,18 +264,24 @@
         "style check":0,
         "memory check":0,
         "random tests":0,
-        "google tests":{
-            "total":70,
-            "detail":{
-                "PureUserOperations":10,
-                "CreateMeeting":10,
-                "CreateMeetingDateIssues":20,
-                "MeetingQuery":20,
-                "ListMeeting":10
-            }
+        "google tests":70,
+        "google tests detail":{
+            "PureUserOperations":10,
+            "CreateMeeting":10,
+            "CreateMeetingDateIssues":20,
+            "MeetingQuery":20,
+            "ListMeeting":10
         }
     },
+    "google tests info":{
+        "PureUserOperations":"Register, login, list all users and delete users without operations on meeting",
+        "CreateMeeting":"Create meeting without time overlap",
+        "CreateMeetingDateIssues":"Create meeting with time overlap",
+        "MeetingQuery":"Query meetings",
+        "ListMeeting":"List meetings sponsored or participated by a user"
+    },
     "random":{
+
     },
     "standard_language":"c++",
     "entry_point":"standard_main.exe",
@@ -254,8 +289,8 @@
     "compilers":{
         "c++":{
             "version":"default",
-            "command":"g++ CODE_FILES StorageTest.o -Werror -g -lgtest -lpthread -lgtest_main -std=c++11 -o OUTPUT_PROGRAM"
+            "command":"g++ CODE_FILES -Werror -g -lgtest -lpthread -lgtest_main -std=c++11 -o OUTPUT_PROGRAM"
         }
     },
-    "exec_flag":"--gtest_output=xml:StorageTest.xml"
+    "exec_flag":"--gtest_output=xml:/tmp/AgendaServiceTestResult.xml"
 }
