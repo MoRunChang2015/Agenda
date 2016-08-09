@@ -21,7 +21,7 @@ class AgendaService {
      * check if the username match password
      * @param userName the username want to login
      * @param password the password user enter
-     * @return if the username match password
+     * @return if success, true will be returned
      */
     bool userLogIn(const std::string userName, const std::string password);
 
@@ -31,7 +31,7 @@ class AgendaService {
      * @param password new user's password
      * @param email new user's email
      * @param phone new user's phone
-     * @return if resgist a new user success
+     * @return if success, true will be returned
      */
     bool userRegister(const std::string userName, const std::string password,
                       const std::string email, const std::string phone);
@@ -40,7 +40,7 @@ class AgendaService {
      * delete a user
      * @param userName user's username
      * @param password user's password
-     * @return if delete this user success
+     * @return if success, true will be returned
      */
     bool deleteUser(const std::string userName, const std::string password);
 
@@ -57,7 +57,7 @@ class AgendaService {
      * @param participator the meeting's participator
      * @param startData the meeting's start date
      * @param endData the meeting's end date
-     * @return if this meeting create success
+     * @return if success, true will be returned
      */
     bool createMeeting(const std::string userName, const std::string title,
                        const std::string startDate, const std::string endDate,
@@ -108,14 +108,14 @@ class AgendaService {
      * delete a meeting by title and its sponsor
      * @param userName sponsor's username
      * @param title meeting's title
-     * @return if delete this meeting success
+     * @return if success, true will be returned
      */
     bool deleteMeeting(const std::string userName, const std::string title);
 
     /**
      * delete all meetings by sponsor
      * @param userName sponsor's username
-     * @return if delete all meetings success
+     * @return if success, true will be returned
      */
     bool deleteAllMeetings(const std::string userName);
 
