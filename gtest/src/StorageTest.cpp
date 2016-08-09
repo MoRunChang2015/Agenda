@@ -62,7 +62,7 @@ protected:
     list<User> simUserList;
     list<Meeting> simMeetingList;
     shared_ptr<Storage> storage;
-    //  user1-user3 and meeting1, meeting2 are default configuration for the test(written in data/users.csv)
+    //  user1-user3 and meeting1, meeting2 are default configuration for the test(written in users.csv)
     static const User user1, user2, user3, user4;
     static const Meeting meeting1, meeting2, meeting3;
 };
@@ -198,12 +198,15 @@ public:
     }
 };
 
+/*
+ *  If no data files to read, then create empty lists
+ */
 TEST_F(StoragePrivateTest, NoFileToRead) {
     storage->m_instance.reset();
     ASSERT_EQ(1, storage.use_count());
     storage.reset();
-    std::remove("data/users.csv");
-    std::remove("data/meetings.csv");
+    std::remove(userPath);
+    std::remove(meetingPath);
     storage = Storage::getInstance();
     EXPECT_TRUE(storage->queryUser(getAllUser).empty());
     EXPECT_TRUE(storage->queryMeeting(getAllMeeting).empty());
@@ -223,8 +226,8 @@ TEST_F(StoragePrivateTest, WriteToFile) {
     storage.reset();
 
     std::fstream userStandardfs, userTestfs;
-    userStandardfs.open("standardData/users.csv", std::fstream::in);
-    userTestfs.open("data/users.csv", std::fstream::in);
+    userStandardfs.open(cmpUserPath, std::fstream::in);
+    userTestfs.open(userPath, std::fstream::in);
     string userStandard, userTest;
     while (userStandardfs || userTestfs) {
         std::getline(userStandardfs, userStandard);
@@ -233,8 +236,8 @@ TEST_F(StoragePrivateTest, WriteToFile) {
     }
 
     std::fstream meetingStandardfs, meetingTestfs;
-    meetingStandardfs.open("standardData/meetings.csv", std::fstream::in);
-    meetingTestfs.open("data/meetings.csv", std::fstream::in);
+    meetingStandardfs.open(cmpMeetingPath, std::fstream::in);
+    meetingTestfs.open(meetingPath, std::fstream::in);
     string meetingStandard, meetingTest;
     while (meetingStandardfs || meetingTestfs) {
         std::getline(meetingStandardfs, meetingStandard);

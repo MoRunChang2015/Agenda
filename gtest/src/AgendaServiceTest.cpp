@@ -12,6 +12,9 @@ using std::list;
 
 class AgendaServiceTest : public ::testing::Test {
 protected:
+    static void SetUpTestCase() {
+        // service = new AgendaService;
+    }
     static void TearDownTestCase() {
         //  Recover the data files
         delete service;

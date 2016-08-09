@@ -81,15 +81,15 @@ bool utility::testMeetingList(const list<Meeting> &expectList,
 }
 
 void utility::recFiles() {
-    std::fstream userStandardfs("standardData/rec_users.csv", std::ios::in);
-    std::fstream userTestfs("data/users.csv", std::ios::out|std::ios::trunc);
+    std::fstream userStandardfs(stdUserPath, std::ios::in);
+    std::fstream userTestfs(userPath, std::ios::out|std::ios::trunc);
     string record;
     while (std::getline(userStandardfs, record)) {
         userTestfs << record << "\n";
     }
 
-    std::fstream meetingStandardfs("standardData/rec_meetings.csv", std::ios::in);
-    std::fstream meetingTestfs("data/meetings.csv", std::ios::out|std::ios::trunc);
+    std::fstream meetingStandardfs(stdMeetingPath, std::ios::in);
+    std::fstream meetingTestfs(meetingPath, std::ios::out|std::ios::trunc);
     while (std::getline(meetingStandardfs, record)) {
         meetingTestfs << record << "\n";
     }

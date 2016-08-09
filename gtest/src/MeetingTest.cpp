@@ -84,6 +84,9 @@ TEST(MeetingTest, Constructors) {
     EXPECT_STREQ(title.c_str(), meetingB.getTitle().c_str());
 }
 
+/*
+ *  Test if a user participates in the meeting
+ */
 TEST(MeetingTest, IsParticipatorCheck) {
     EXPECT_TRUE(meeting.isParticipator("Par_A"));
     EXPECT_TRUE(meeting.isParticipator("Par_B"));

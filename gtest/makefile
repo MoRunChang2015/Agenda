@@ -57,3 +57,9 @@ runAll:
 
 clean:
 	rm -rf src/*~ $(TESTBUILDDIR)/*
+
+
+result: build/tinyxml2.o
+	g++ test/testXML.cpp src/parseXML.cpp build/tinyxml2.o  -I src/ -std=c++11 -g -o bin/testXML
+build/tinyxml2.o:src/tinyxml2.cpp src/tinyxml2.h
+	g++ $< -I src/ -c -o $@
