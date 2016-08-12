@@ -11,7 +11,7 @@ SOURCES = $(shell find $(TESTSRCDIR) -type f -name *.cpp)
 TARGET =$(notdir $(patsubst %.cpp, %, $(SOURCES)))
 TESTOBJECTS = $(patsubst %.cpp, %.o, $(SOURCES))
 
-all: bin/DateTest bin/UserTest bin/MeetingTest bin/StorageTest bin/AgendaServiceTest
+all: dir bin/DateTest bin/UserTest bin/MeetingTest bin/StorageTest bin/AgendaServiceTest
 
 bin/DateTest: $(TESTBUILDDIR)/DateTest.o $(BUILDDIR)/Date.o
 	$(CC) $^ $(CCFLAG) -o $@
