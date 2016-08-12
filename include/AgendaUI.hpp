@@ -39,14 +39,14 @@ class AgendaUI {
     void userRegister(void);
 
     /**
-     * quit the Agenda
-     */
-    void quitAgenda(void);
-
-    /**
      * user logout
      */
     void userLogOut(void);
+
+    /**
+     * quit the Agenda
+     */
+    void quitAgenda(void);
 
     /**
      * delete a user from storage
