@@ -151,6 +151,7 @@ bool Storage::writeToFile(void) {
     if (!m_dirty) {
         return false;
     }
+    m_dirty = false;
     std::ofstream users_ifs(Path::userPath, std::ios::out);
     std::ofstream meetings_ifs(Path::meetingPath, std::ios::out);
     for (User &each : m_userList) {
@@ -186,6 +187,7 @@ std::shared_ptr<Storage> Storage::getInstance(void) {
 *   destructor
 */
 Storage::~Storage() {
+    // std::cout << "delete storage" << std::endl;
     if (this->m_dirty) {
         this->writeToFile();
     }
@@ -324,6 +326,6 @@ int Storage::deleteMeeting(std::function<bool(const Meeting &)> filter) {
 * sync with the file
 */
 bool Storage::sync(void) {
-    m_dirty = false;
+    // m_dirty = false;
     return writeToFile();
 }
