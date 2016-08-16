@@ -24,8 +24,8 @@ namespace utility {
     void recFiles();
 
     //  Path to csv
-    const char *const userPath = "tmp/users.csv";
-    const char *const meetingPath = "tmp/meetings.csv";
+    const char *const userPath = "/tmp/users.csv";
+    const char *const meetingPath = "/tmp/meetings.csv";
 }
 
 #endif /* UTILITY_H */
