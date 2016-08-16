@@ -49,11 +49,11 @@ dir:
 	mkdir -p $(TESTBUILDDIR)
 
 runAll:
-	bin/AgendaServiceTest
-	bin/DateTest
-	bin/MeetingTest
-	bin/StorageTest
-	bin/UserTest
+	@echo " Testing AgendaService "; bin/AgendaServiceTest
+	@echo " Testing Date ";bin/DateTest
+	@echo " Testing Meeting ";bin/MeetingTest
+	@echo " Testing Storage ";bin/StorageTest
+	@echo " Testing User ";bin/UserTest
 
 clean:
 	rm -rf src/*~ $(TESTBUILDDIR)/*
