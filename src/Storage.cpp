@@ -151,7 +151,6 @@ bool Storage::writeToFile(void) {
     if (!m_dirty) {
         return false;
     }
-    m_dirty = false;
     std::ofstream users_ifs(Path::userPath, std::ios::out);
     std::ofstream meetings_ifs(Path::meetingPath, std::ios::out);
     for (User &each : m_userList) {
@@ -169,6 +168,7 @@ bool Storage::writeToFile(void) {
                              each.getTitle()}) << std::endl;
     }
     meetings_ifs.close();
+    m_dirty = false;
     return true;
 }
 

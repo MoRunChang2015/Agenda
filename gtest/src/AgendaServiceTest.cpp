@@ -11,10 +11,23 @@ using std::vector;
 using std::string;
 using std::list;
 
+class createCSV: public ::testing::Environment {
+public:
+    /*
+     *  Create users.csv and meetings.csv files
+     *  This is done before storage is instantiated
+     */
+    virtual void SetUp() {
+        utility::recFiles();
+    }
+};
+
+::testing::Environment* const env = ::testing::AddGlobalTestEnvironment(new createCSV);
+
 class AgendaServiceTest : public ::testing::Test {
 protected:
     static void SetUpTestCase() {
-        // service = new AgendaService;
+        service = new AgendaService;
     }
     static void TearDownTestCase() {
         //  Recover the data files
@@ -58,7 +71,7 @@ protected:
     static const Meeting meetingSamples[6];
 };
 
-AgendaService *AgendaServiceTest::service = new AgendaService;
+AgendaService *AgendaServiceTest::service = nullptr;
 
 const User AgendaServiceTest::user1("Lara Croft", "TombRaidar",
                                     "lara@email.com", "13800000000");
