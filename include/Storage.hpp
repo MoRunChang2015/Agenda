@@ -100,7 +100,7 @@ public:
                     std::function<void(Meeting &)> switcher);
 
   /**
-  * update meetings
+  * delete meetings
   * @param a lambda function as the filter
   * @return the number of deleted meetings
   */

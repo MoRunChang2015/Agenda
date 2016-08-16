@@ -169,6 +169,7 @@ bool Storage::writeToFile(void) {
                              each.getTitle()}) << std::endl;
     }
     meetings_ifs.close();
+    users_ifs.close();
     return true;
 }
 
@@ -304,7 +305,7 @@ int Storage::updateMeeting(std::function<bool(const Meeting &)> filter,
 }
 
 /**
-* update meetings
+* delete meetings
 * @param a lambda function as the filter
 * @return the number of deleted meetings
 */
