@@ -198,7 +198,7 @@ bool AgendaService::createMeeting(const std::string userName,
         else
             return false;
     });
-    if (!l.empty()) return false;
+    // if (!l.empty()) return false;
     Meeting temp(userName, participator, sTime, eTime, title);
     m_storage->createMeeting(temp);
     return true;
