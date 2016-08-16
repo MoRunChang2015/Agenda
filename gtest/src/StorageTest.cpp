@@ -7,6 +7,7 @@
 #include <iterator>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 #include "utility.h"
 
 #define TESTWRITETOFILE
@@ -29,6 +30,19 @@ using std::shared_ptr;
 using std::function;
 
 using namespace utility;
+
+class createCSV: public ::testing::Environment {
+public:
+    /*
+     *  Create users.csv and meetings.csv files
+     *  This is done before storage is instantiated
+     */
+    virtual void SetUp() {
+        recFiles();
+    }
+};
+
+::testing::Environment* const env = ::testing::AddGlobalTestEnvironment(new createCSV);
 
 class StorageTest: public ::testing::Test {
     //  Use static variables to hold the configuration for the entire StorageTest case
@@ -225,29 +239,42 @@ TEST_F(StoragePrivateTest, WriteToFile) {
     storage->m_instance.reset();
     storage.reset();
 
-    std::fstream userStandardfs, userTestfs;
-    userStandardfs.open(cmpUserPath, std::fstream::in);
+    std::fstream userTestfs;
     userTestfs.open(userPath, std::fstream::in);
-    string userStandard, userTest;
-    while (userStandardfs || userTestfs) {
-        std::getline(userStandardfs, userStandard);
+    std::vector<std::string> stdUsers{R"("Lara Croft","TombRaidar","lara@email.com","13800000000")",
+            R"("Geralt of Rivia","TheWithcer","geralt@email.com","13700000000")",
+            R"("Naked Snake","MetalGearSolid","snake@email.com","13600000000")",
+            R"("Trevor","GrandTheftAutoV","Trevor@email.com","13500000000")"};
+    std::vector<std::string> testUsers;
+    string userTest;
+    while (userTestfs) {
         std::getline(userTestfs, userTest);
-        ASSERT_EQ(userStandard, userTest);
+        testUsers.push_back(userTest);
+    }
+    testUsers.pop_back();
+    if (stdUsers.size() != testUsers.size()) {
+        FAIL() << "Compare users.csv failed\n" << stdUsers.size() << " " << testUsers.size();
+    }
+    for (string &user: stdUsers) {
+        auto pos = std::find(testUsers.begin(), testUsers.end(), user);
+        ASSERT_NE(testUsers.end(), pos);
     }
 
-    std::fstream meetingStandardfs, meetingTestfs;
-    meetingStandardfs.open(cmpMeetingPath, std::fstream::in);
+    std::fstream meetingTestfs;
     meetingTestfs.open(meetingPath, std::fstream::in);
-    string meetingStandard, meetingTest;
-    while (meetingStandardfs || meetingTestfs) {
-        std::getline(meetingStandardfs, meetingStandard);
+    std::vector<std::string> testMeetings;
+    string meetingTest;
+    while (meetingTestfs) {
         std::getline(meetingTestfs, meetingTest);
-        ASSERT_EQ(meetingStandard, meetingTest);
+        testMeetings.push_back(meetingTest);
     }
+    testMeetings.pop_back();
+    if (testMeetings.size() != 1) {
+        FAIL() << "Compare meetings.csv failed";
+    }
+    ASSERT_EQ(R"("Geralt of Rivia","Naked Snake&Lara Croft","2016-07-10/15:00","2016-07-10/18:00","Want a few rounds of Gwent?")", testMeetings[0]);
 
-    userStandardfs.close();
     userTestfs.close();
-    meetingStandardfs.close();
     meetingTestfs.close();
 }
 

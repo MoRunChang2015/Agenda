@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "utility.h"
 
+using namespace std;
+
 bool utility::judgeUserEqual(const User &user1, const User &user2) {
     if (user1.getName() == user2.getName() &&
         user1.getPassword() == user2.getPassword() &&
@@ -81,20 +83,19 @@ bool utility::testMeetingList(const list<Meeting> &expectList,
 }
 
 void utility::recFiles() {
-    std::fstream userStandardfs(stdUserPath, std::ios::in);
-    std::fstream userTestfs(userPath, std::ios::out|std::ios::trunc);
-    string record;
-    while (std::getline(userStandardfs, record)) {
-        userTestfs << record << "\n";
+    vector<string> users{R"("Lara Croft","TombRaidar","lara@email.com","13800000000")",
+            R"("Geralt of Rivia","TheWithcer","geralt@email.com","13700000000")",
+            R"("Naked Snake","MetalGearSolid","snake@email.com","13600000000")"};
+    vector<string> meetings{R"("Naked Snake","Lara Croft","2016-07-08/11:10","2016-07-08/12:05","I wanna Quite")",
+            R"("Geralt of Rivia","Naked Snake&Lara Croft","2016-07-10/15:00","2016-07-10/18:00","Want a few rounds of Gwent?")"};
+    fstream f(userPath, fstream::out|fstream::trunc);
+    for (string &record: users) {
+        f << record << endl;
     }
-
-    std::fstream meetingStandardfs(stdMeetingPath, std::ios::in);
-    std::fstream meetingTestfs(meetingPath, std::ios::out|std::ios::trunc);
-    while (std::getline(meetingStandardfs, record)) {
-        meetingTestfs << record << "\n";
+    f.close();
+    f.clear();
+    f.open(meetingPath, fstream::out|fstream::trunc);
+    for (string &record: meetings) {
+        f << record << endl;
     }
-    userStandardfs.close();
-    userTestfs.close();
-    meetingStandardfs.close();
-    meetingTestfs.close();
 }
