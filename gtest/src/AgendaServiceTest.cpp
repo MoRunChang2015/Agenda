@@ -133,54 +133,60 @@ TEST_F(AgendaServiceTest, PureUserOperations) {
  */
 TEST_F(AgendaServiceTest, CreateMeeting) {
     //  Create meeiting
+    //  Existed title
+    EXPECT_FALSE(service->createMeeting(meeting5.getSponsor(),
+                                        meeting2.getTitle(),
+                                        Date::dateToString(meeting5.getStartDate()),
+                                        Date::dateToString(meeting5.getEndDate()),
+                                        meeting5.getParticipator()));
     //  No such sponsor
     EXPECT_FALSE(service->createMeeting(user4.getName(),
-                                        meeting3.getTitle(),
-                                        Date::dateToString(meeting3.getStartDate()),
-                                        Date::dateToString(meeting3.getEndDate()),
-                                        meeting3.getParticipator()));
+                                        meeting5.getTitle(),
+                                        Date::dateToString(meeting5.getStartDate()),
+                                        Date::dateToString(meeting5.getEndDate()),
+                                        meeting5.getParticipator()));
     //  Some participators are dupulicate
-    EXPECT_FALSE(service->createMeeting(meeting3.getSponsor(),
-                                        meeting3.getTitle(),
-                                        Date::dateToString(meeting3.getEndDate()),
-                                        Date::dateToString(meeting3.getStartDate()),
-                                        vector<string>({meeting3.getSponsor(), meeting3.getSponsor()})));
+    EXPECT_FALSE(service->createMeeting(meeting5.getSponsor(),
+                                        meeting5.getTitle(),
+                                        Date::dateToString(meeting5.getStartDate()),
+                                        Date::dateToString(meeting5.getEndDate()),
+                                        vector<string>({meeting5.getParticipator()[0], meeting5.getParticipator()[0]})));
     //  Participator list contains sponsor
-    EXPECT_FALSE(service->createMeeting(meeting3.getSponsor(),
-                                        meeting3.getTitle(),
-                                        Date::dateToString(meeting3.getStartDate()),
-                                        Date::dateToString(meeting3.getEndDate()),
-                                        vector<string>({user1.getName(), meeting3.getSponsor()})));
+    EXPECT_FALSE(service->createMeeting(meeting5.getSponsor(),
+                                        meeting5.getTitle(),
+                                        Date::dateToString(meeting5.getStartDate()),
+                                        Date::dateToString(meeting5.getEndDate()),
+                                        vector<string>({meeting5.getParticipator()[0], meeting5.getSponsor()})));
     //  No such participator(s)
     EXPECT_FALSE(service->createMeeting(meeting3.getSponsor(),
                                         meeting3.getTitle(),
                                         Date::dateToString(meeting3.getStartDate()),
                                         Date::dateToString(meeting3.getEndDate()),
-                                        vector<string>({meeting3.getParticipator().front(), "Trevor"})));
+                                        meeting3.getParticipator()));
     //  Invalid start date string
-    EXPECT_FALSE(service->createMeeting(meeting3.getSponsor(),
-                                        meeting3.getTitle(),
-                                        "2016-7-10/15:00",
-                                        Date::dateToString(meeting3.getEndDate()),
-                                        meeting3.getParticipator()));
+    EXPECT_FALSE(service->createMeeting(meeting5.getSponsor(),
+                                        meeting5.getTitle(),
+                                        "2019-7-10/15:00",
+                                        Date::dateToString(meeting5.getEndDate()),
+                                        meeting5.getParticipator()));
     //  Invalid end date string
-    EXPECT_FALSE(service->createMeeting(meeting3.getSponsor(),
-                                        meeting3.getTitle(),
-                                        Date::dateToString(meeting3.getStartDate()),
-                                        "2016-07-11/19:0",
-                                        meeting3.getParticipator()));
+    EXPECT_FALSE(service->createMeeting(meeting5.getSponsor(),
+                                        meeting5.getTitle(),
+                                        Date::dateToString(meeting5.getStartDate()),
+                                        "2019-07-11/19:0",
+                                        meeting5.getParticipator()));
     //  Start date is later than end date
-    EXPECT_FALSE(service->createMeeting(meeting3.getSponsor(),
-                                        meeting3.getTitle(),
-                                        Date::dateToString(meeting3.getEndDate()),
-                                        Date::dateToString(meeting3.getStartDate()),
-                                        vector<string>({meeting3.getSponsor()})));
+    EXPECT_FALSE(service->createMeeting(meeting5.getSponsor(),
+                                        meeting5.getTitle(),
+                                        Date::dateToString(meeting5.getEndDate()),
+                                        Date::dateToString(meeting5.getStartDate()),
+                                        vector<string>({meeting5.getSponsor()})));
     //  Start date is equal to end date
-    EXPECT_FALSE(service->createMeeting(meeting3.getSponsor(),
-                                        meeting3.getTitle(),
-                                        Date::dateToString(meeting3.getStartDate()),
-                                        Date::dateToString(meeting3.getStartDate()),
-                                        vector<string>({meeting3.getSponsor()})));
+    EXPECT_FALSE(service->createMeeting(meeting5.getSponsor(),
+                                        meeting5.getTitle(),
+                                        Date::dateToString(meeting5.getStartDate()),
+                                        Date::dateToString(meeting5.getStartDate()),
+                                        meeting5.getParticipator()));
 }
 
 /*

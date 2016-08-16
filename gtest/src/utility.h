@@ -24,12 +24,12 @@ namespace utility {
     void recFiles();
 
     //  Path to csv
-    const char *const userPath = "/tmp/users.csv";
-    const char *const meetingPath = "/tmp/meetings.csv";
-    const char *const stdUserPath = "/tmp/rec_users.csv";
-    const char *const stdMeetingPath = "/tmp/rec_meetings.csv";
-    const char *const cmpUserPath = "/tmp/cmpUsers.csv";
-    const char *const cmpMeetingPath = "/tmp/cmpMeetings.csv";
+    const char *const userPath = "tmp/users.csv";
+    const char *const meetingPath = "tmp/meetings.csv";
+    const char *const stdUserPath = "tmp/rec_users.csv";
+    const char *const stdMeetingPath = "tmp/rec_meetings.csv";
+    const char *const cmpUserPath = "tmp/cmpUsers.csv";
+    const char *const cmpMeetingPath = "tmp/cmpMeetings.csv";
 
 }
 
