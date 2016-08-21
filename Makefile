@@ -20,6 +20,7 @@ $(TARGET) : $(OBJECTS)
 	@echo " Linking "
 	@mkdir -p bin
 	@mkdir -p data
+	@mkdir -p tmp
 	@echo " $(CC) $^ -o $(TARGET) $(LIB) $(LINKER)"; $(CC) $^ -o $(TARGET)
 
 $(BUILDDIR)/%.o : $(SRCDIR)/%.$(SRCEXT)

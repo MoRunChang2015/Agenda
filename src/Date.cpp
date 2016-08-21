@@ -240,17 +240,18 @@ bool Date::operator==(const Date &t_date) const {
 * @brief check whether the CurrentDate is  greater than the t_date
 */
 bool Date::operator>(const Date &t_date) const {
-    if (m_year > t_date.getYear()) return true;
-    if (m_year < t_date.getYear()) return false;
-    if (m_month > t_date.getMonth()) return true;
-    if (m_month < t_date.getMonth()) return false;
-    if (m_day > t_date.getDay()) return true;
-    if (m_day < t_date.getDay()) return false;
-    if (m_hour > t_date.getHour()) return true;
-    if (m_hour < t_date.getHour()) return false;
-    if (m_minute > t_date.getMinute()) return true;
-    if (m_minute < t_date.getMinute()) return false;
-    return false;
+    // if (m_year > t_date.getYear()) return true;
+    // if (m_year < t_date.getYear()) return false;
+    // if (m_month > t_date.getMonth()) return true;
+    // if (m_month < t_date.getMonth()) return false;
+    // if (m_day > t_date.getDay()) return true;
+    // if (m_day < t_date.getDay()) return false;
+    // if (m_hour > t_date.getHour()) return true;
+    // if (m_hour < t_date.getHour()) return false;
+    // if (m_minute > t_date.getMinute()) return true;
+    // if (m_minute < t_date.getMinute()) return false;
+    // return false;
+    return dateToString(*this) > dateToString(t_date);
 }
 
 /**

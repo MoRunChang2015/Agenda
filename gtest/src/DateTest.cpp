@@ -315,7 +315,7 @@ TEST(DateTest, OperatorCheck) {
     //  Greater or less than
     date = Date::stringToDate(dateStr);
     for (int i = 0; i < dateStr.size(); ++i) {
-        if (i != 4 && i != 7 & i != 10 && i != 13) {
+        if (i != 4 && i != 5 && i != 7 & i != 10 && i != 13) {
             string dateStrL = dateStr;
             dateStrL[i] = '2';
             date1 = Date::stringToDate(dateStrL);

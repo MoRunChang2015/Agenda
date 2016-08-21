@@ -217,15 +217,15 @@ void AgendaUI::listAllUsers(void) {
     cout << "[list all users] " << endl;
     cout << endl;
     cout << setiosflags(ios::left);
-    cout << setw(8) << "name";
-    cout << setw(16) << "email";
+    cout << setw(20) << "name";
+    cout << setw(30) << "email";
     cout << "phone" << endl;
     list<User> l;
     l = m_agendaService.listAllUsers();
     list<User>::iterator it = l.begin();
     while (it != l.end()) {
-        cout << setw(8) << it->getName();
-        cout << setw(16) << it->getEmail();
+        cout << setw(20) << it->getName();
+        cout << setw(30) << it->getEmail();
         cout << it->getPhone() << endl;
         it++;
     }
